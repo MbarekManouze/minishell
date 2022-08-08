@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:30:14 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/07/19 15:24:40 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/08 15:32:30 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ int	cher_home(char *s, char **env)
 	{
 		j = strncmp(s, env[i], ft_strlen(s));
 		if (j == 0)
-			return (i);
+		{
+			if (env[i][ft_strlen(s)] == '=')
+				return (i);
+		}
 		i++;
 	}
 	return (-1);
