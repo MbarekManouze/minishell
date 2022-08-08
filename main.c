@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/08 13:25:59 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/08 16:04:04 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int check(char *str)
 		i++;
 	}
 	free(str);
-	return (0);
+	return (1);
 }
 
 int	main(int ac, char **av, char **env)
@@ -129,8 +129,8 @@ int	main(int ac, char **av, char **env)
 		str = readline("bash-0.2$ ");
 		if (!str)
 			exit (0);
-		// if (check(str) || check_space(str))
-		// 	continue;
+		if (check(str) || check_space(str))
+			continue;
 		add_history(str);
 		if (!parser(str, parse))
 			continue;
@@ -172,21 +172,7 @@ void ft_begin(t_parse *parse, pipex *t_pipe)
 {
 	(void)t_pipe;
 
-	// int i;
-	// int j;
-
-	// i = 0;
-	// j = 0;
-	// while (i < parse->num_data)
-	// {
-	// 	printf("----- pipe number -------:%d\n", i);
-	// 	printf("%s\n", parse->data[i].cmd);
-	// 	printf("%s\n", parse->data[i].args[0]);
-	// 	i++;
-	// }
-	// fprintf(stderr ,"%d\n", parse->num_data);
 	// h_d(parse, t_pipe);
-	//fprintf(stderr ,"%d\n", parse->num_data);
 	commands(parse, t_pipe);
 }
 
@@ -201,7 +187,6 @@ void commands(t_parse *parse, pipex *t_pipe)
 	i = 0;
 	j = 0;
 	k = 0;
-	// printf("%d\n", parse->num_data);
 	while (i < parse->num_data - 1)
 	{
 		if (parse->data[i].cmd == NULL)
@@ -245,7 +230,6 @@ void h_d(t_parse *parse, pipex *t_pipe)
 	j = 0;
 	k = 0;
 	h =  count_h_d(parse);
-	// fprintf(stderr, "%d\n", h);
 	while (i < parse->num_data)
 	{
 		c = 0;
@@ -291,7 +275,6 @@ int count_args(t_parse *parse, int i)
 
 char **join_args(t_parse *parse, int i)
 {
-	// char *join;
 	char **split;
 	int j;
 	int c;
@@ -300,8 +283,6 @@ char **join_args(t_parse *parse, int i)
 	j = 0;
 	c = 0;
 	len = count_args(parse, i);
-	// printf("waaaaaa 3ibad lah\n");
-	// printf("****%d\n", len);
 	if (!len)
 		return (NULL);
 	split = malloc(sizeof(char *) * (len + 1));
@@ -309,10 +290,8 @@ char **join_args(t_parse *parse, int i)
 	{
 		split[j] = ft_strdup(parse->data[i].cmd);
 		j++;
-		// printf("******%s\n", split[0]);
 		if (parse->data[i].args[c])
 		{
-			// printf("llolooloo\n");
 			while (parse->data[i].args[c])
 			{
 				split[j] = ft_strdup(parse->data[i].args[c]);
@@ -322,14 +301,5 @@ char **join_args(t_parse *parse, int i)
 		}
 		split[j] = 0;
 	}
-	// join = ft_strdup(parse->data[i].cmd);
-	// while (parse->data[i].args[j] != NULL)
-	// {
-	// 	join = join_data(join, parse->data[i].args[j]);
-	// 	j++;
-	// }
-	// split = ft_split(join, ' ');
-	// free(join);
-	// printf("%s\n", split[0]);
 	return (split);
 }
