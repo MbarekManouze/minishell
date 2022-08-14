@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:32:31 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 12:02:15 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/14 20:25:57 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ char	*expand_status(char *str)
             {
                 if (str[i] == '$' && str[i + 1] == '?')
                 {
+					s[j++] = '\0';
                     s = ft_strjoin3(s, string);
                     j = strlen(s);
                     i++;
@@ -160,6 +161,7 @@ char	*expand_status(char *str)
         }
         else if (str[i] == '$' && str[i + 1] == '?')
         {
+			s[j++] = '\0';
             s = ft_strjoin3(s, string);
             j = ft_strlen(s);
             i++;
