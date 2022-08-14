@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 10:32:12 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/14 11:36:02 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,31 +207,28 @@ void commands(t_parse *parse, pipex *t_pipe)
 		}
 		i++;
 	}
-	t_pipe->wait_id[t_pipe->id] = fork();
-	if (t_pipe->wait_id[t_pipe->id] == 0)
+	if (parse->data[i].cmd)
 	{
-		if (parse->data[i].cmd)
-			cmd = join_args(parse, i);
-		k = check_red(parse, t_pipe,i);
-		do_command(parse, i, cmd);
+		t_pipe->wait_id[t_pipe->id] = fork();
+		if (t_pipe->wait_id[t_pipe->id] == 0)
+		{
+			if (parse->data[i].cmd)
+				cmd = join_args(parse, i);
+			check_red(parse, t_pipe,i);
+			do_command(parse, i, cmd);
+		}
 	}
 	t_pipe->id = 0;
 	close(0);
-	// if (parse->num_data == 1)
-	// 	waitpid(t_pipe->wait_id[t_pipe->id], 0, 0);
-	// else
-	// {
-		while (t_pipe->id < t_pipe->cmd_number)
+	while (t_pipe->id < t_pipe->cmd_number)
+	{
+		if (waitpid(t_pipe->wait_id[t_pipe->id], 0, 0) == -1)
 		{
-			printf("id ;%d\n", t_pipe->wait_id[t_pipe->id]);
-			if (waitpid(t_pipe->wait_id[t_pipe->id], 0, 0) == -1)
-			{
-				write(2, "alriiiiiiiiight\n", 17);
-				exit(1);
-			}
-			t_pipe->id++;
+			write(2, "alriiiiiiiiight\n", 17);
+			exit(1);
 		}
-	// }
+		t_pipe->id++;
+	}
 	free(t_pipe->wait_id);
 	close(t_pipe->dup_hd);
 	t_pipe->wait_id = 0;
@@ -241,7 +238,6 @@ void h_d(t_parse *parse)
 {
 	int i;
 	int c;
-	int s;
 
 	i = 0;
 	while (i < parse->num_data)
@@ -252,7 +248,11 @@ void h_d(t_parse *parse)
 			while (c < parse->data[i].num_red)
 			{
 				if (parse->data[i].red[c].type == HERDOC)
-					s = here_doc(parse, ft_strdup(parse->data[i].red->file), i);
+				{
+					// printf("hayiii ghi\n");
+					// printf("%s\n", parse->data[i].red)
+					here_doc(parse, ft_strdup(parse->data[i].red[c].file), i);
+				}
 				c++;
 			}
 		}

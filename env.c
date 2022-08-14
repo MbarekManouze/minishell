@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 16:11:28 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/06/25 17:16:24 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/14 12:04:32 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**ft_env(char **env)
 	i = 0;
 	while (env[i])
 		i++;
-	tab = malloc(sizeof(char *) * (i + 1));
+	tab = malloc(sizeof(char *) * (i + 2));
 	if (!tab)
 		return (0);
 	i = 0;
@@ -29,6 +29,8 @@ char	**ft_env(char **env)
 		tab[i] = ft_strdup(env[i]);
 		i++;
 	}
+	tab[i] = ft_strdup("?=0");
+	i++;
 	tab[i] = 0;
 	return (tab);
 }

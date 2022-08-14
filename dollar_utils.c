@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:54:57 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/07/21 11:12:00 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/14 12:00:01 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	variable_count(char *str, t_parse *p)
 		if (str[i] == '$')
 		{
 			i++;
+			count++;
 			variable_c(str, &count, &i, p);
 			i--;
 		}

@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:54:54 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 10:43:50 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/14 12:13:17 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,4 +141,39 @@ char	*ft_strjoin2(char *s1, char *s2)
 	str[i] = '\0';
 	free(s2);
 	return (str);
+}
+
+char	*ft_strjoin3(char *s1, char *s2)
+{
+	char	*str;
+	int		i;
+	int		j;
+
+	if (!s1 || !s2)
+		return (0);
+	str = malloc(strlen(s1) + strlen(s2) + 1);
+	if (!str)
+		return (0);
+	i = 0;
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	str[i] = '\0';
+	free(s1);
+	return (str);
+}
+
+int	ft_isalnum(int c)
+{
+	return ((c <= 57 && c >= 48) || (c <= 90 && c >= 65)
+		|| (c <= 122 && c >= 97) || c == '_');
 }

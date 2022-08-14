@@ -6,7 +6,7 @@
 #    By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 11:43:45 by ressalhi          #+#    #+#              #
-#    Updated: 2022/08/08 12:19:50 by mmanouze         ###   ########.fr        #
+#    Updated: 2022/08/14 12:12:38 by mmanouze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC = gcc
 CFLAGS = -lreadline -Wall -Wextra -Werror -g -fsanitize=address
 SRC =	main.c ft_split.c expand.c env.c errors.c parsing.c redirections.c \
 		remove_trash.c utils.c utils2.c dollar.c dollar2.c dollar_utils.c \
-		unset.c echo.c export.c builtins.c pipes.c pipe_utils.c here_doc.c \
+		unset.c echo.c export.c builtins.c pipes.c pipe_utils.c here_doc.c ft_itoa.c \
 
 all : $(NAME)
 

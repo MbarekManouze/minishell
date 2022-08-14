@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 10:37:16 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/14 12:12:20 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_red
 
 typedef struct s_data
 {
-	int 	*fd;
+	int 	fd[2];
 	char	*cmd;
 	char	**args;
 	int		num_red;
@@ -79,12 +79,15 @@ typedef struct pipex_bonus
 	int idx;
 }  pipex;
 
+int		g_status;
 char	**ft_split(char *s, char c);
+char	*ft_itoa(int n);
 size_t	ft_strlen(char *s);
 char	*ft_strdup(char *s1);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strjoin2(char *s1, char *s2);
+char	*ft_strjoin3(char *s1, char *s2);
 char	**expanding(char **tab);
 char	*expand(char *str);
 void	expaaaand(char *s, char *str, int *i, int *j);
@@ -149,6 +152,7 @@ void	ft_cd(char **tab, t_parse *parse);
 void	modify_oldpwd(char **env);
 int		cher_home(char *s, char **env);
 void	ft_exit(char **tab);
+int	ft_isalnum(int c);
 void	excute_builtins(char **comd, t_parse *parse);
 
 /*--------------------------------------------------------------------*/

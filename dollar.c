@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:32:31 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/07/21 12:58:47 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/14 12:02:15 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ void	dollar_dqoutes(char *s, char *str, t_parse *parse)
 			&& str[parse->i + 1] != 39)
 		{
 			parse->i++;
+			if (str[parse->i] == '\0' || !ft_isalnum(str[parse->i]))
+			{
+				s[parse->j++] = str[parse->i - 1];
+				if (!ft_isalnum(str[parse->i]) && str[parse->i] != '\0')
+				{
+					while (str[parse->i] != '$' && str[parse->i])
+					{
+						s[parse->j++] = str[parse->i];
+						parse->i++;
+					}
+					parse->i--;
+					return ;
+				}
+				return ;
+			}
 			s1 = dollar_fill(str, parse, s1);
 			fill_str(s1, s, parse);
 		}
@@ -40,9 +55,19 @@ int	dollar_dqoutes2(char *s, char *str, t_parse *parse)
 
 	s1 = NULL;
 	parse->i++;
-	if (str[parse->i] == '\0')
+	if (str[parse->i] == '\0' || !ft_isalnum(str[parse->i]))
 	{
 		s[parse->j++] = str[parse->i - 1];
+		if (!ft_isalnum(str[parse->i]) && str[parse->i] != '\0')
+		{
+			while (str[parse->i] != '$' && str[parse->i])
+			{
+				s[parse->j++] = str[parse->i];
+				parse->i++;
+			}
+			parse->i--;
+			return (1);
+		}
 		return (0);
 	}
 	if (str[parse->i] == '"')
@@ -76,6 +101,78 @@ void	dollar_hundle2(char *s, char *str, t_parse *parse)
 	}
 }
 
+int	count_status(char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 1] == '?')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+char	*expand_status(char *str)
+{
+    int i;
+    int j;
+    char    *s;
+    char    *string;
+
+	i = count_status(str);
+	string = ft_itoa(g_status);
+	s = malloc((ft_strlen(str) - (i * 2)) + (i * ft_strlen(string)) + 1);
+    i = 0;
+    j = 0;
+    while (str[i])
+    {
+        if (str[i] == 39)
+        {
+            s[j++] = str[i++];
+            while (str[i] != 39 && str[i])
+            {
+                s[j++] = str[i];
+                i++;
+            }
+            s[j++] = str[i];
+        }
+        else if (str[i] == '"')
+        {
+            s[j++] = str[i++];
+            while (str[i] != '"' && str[i])
+            {
+                if (str[i] == '$' && str[i + 1] == '?')
+                {
+                    s = ft_strjoin3(s, string);
+                    j = strlen(s);
+                    i++;
+                }
+				else
+                	s[j++] = str[i];
+                i++;
+            }
+            s[j++] = str[i];
+        }
+        else if (str[i] == '$' && str[i + 1] == '?')
+        {
+            s = ft_strjoin3(s, string);
+            j = ft_strlen(s);
+            i++;
+        }
+        else
+            s[j++] = str[i];
+        i++;
+    }
+    s[j] = '\0';
+	free(str);
+    return (s);
+}
+
 char	*dollar_hundler(char *str, t_parse *parse)
 {
 	char	*s;
@@ -91,6 +188,7 @@ char	*dollar_hundler(char *str, t_parse *parse)
 	dollar_hundle2(s, str, parse);
 	s[parse->j] = '\0';
 	free(str);
+	s = expand_status(s);
 	return (s);
 }
 
@@ -109,14 +207,8 @@ int	dollar(t_parse *p, int len)
 			p->data[i].args[j] = dollar_hundler(p->data[i].args[j], p);
 			j++;
 		}
-		j = 0;
-		while (j < p->data[i].num_red)
-		{
-			p->data[i].red[j].file = dollar_hundler(p->data[i].red[j].file,
-					p);
-			j++;
-		}
 		i++;
 	}
 	return (1);
 }
+
