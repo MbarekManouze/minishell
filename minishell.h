@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 12:12:20 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/14 16:08:49 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void open_files(t_parse *parse);
 int check_red(t_parse *parse,pipex *t_pipe, int i);
 void close_extra_files(pipex *t_pipe);
 void set_red(t_parse *parse, pipex *t_pipe, int c, int i);
-int check_for_builtins(t_parse *parse);
+int check_for_builtins(t_parse *parse, pipex *t_pipe);
 int find_here_d(t_parse *parse, int i);
 void wait_cmd(pipex *t_pipe, t_parse *parse);
 

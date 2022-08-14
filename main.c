@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 11:36:02 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/14 18:10:31 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int	main(int ac, char **av, char **env)
 		add_history(str);
 		if (!parser(str, parse))
 			continue;
-		if (check_for_builtins(parse))
+		if (check_for_builtins(parse, t_pipe))
 			continue;
 		wait_cmd(t_pipe, parse);
 		ft_begin(parse, t_pipe);
@@ -147,7 +147,7 @@ int	main(int ac, char **av, char **env)
 	}
 }
 
-int check_for_builtins(t_parse *parse)
+int check_for_builtins(t_parse *parse, pipex *t_pipe)
 {
 	char **comd;
 	int j;
@@ -159,8 +159,11 @@ int check_for_builtins(t_parse *parse)
         	|| !ft_strcmp(parse->data[0].cmd, "unset") || !ft_strcmp(parse->data[0].cmd, "cd") || !ft_strcmp(parse->data[0].cmd, "exit")
 			|| !ft_strcmp(parse->data[0].cmd, "echo"))
     	{
+			check_red(parse, t_pipe,0);
 			comd = join_args(parse, 0);
       		excute_builtins(comd, parse);
+			dup2(t_pipe->save[0], 0);
+			dup2(t_pipe->save[1], 1);
 			while (comd[j])
 			{
 				free(comd[j]);
@@ -189,7 +192,6 @@ void commands(t_parse *parse, pipex *t_pipe)
 
 	i = 0;
 	j = 0;
-	k = 0;
 	while (i < parse->num_data - 1)
 	{		if (parse->data[i].cmd == NULL)
 		{
@@ -207,14 +209,16 @@ void commands(t_parse *parse, pipex *t_pipe)
 		}
 		i++;
 	}
-	if (parse->data[i].cmd)
+	k = check_red(parse, t_pipe,i);
+	if (find_here_d(parse, i) || parse->data[i].cmd)
 	{
 		t_pipe->wait_id[t_pipe->id] = fork();
 		if (t_pipe->wait_id[t_pipe->id] == 0)
 		{
 			if (parse->data[i].cmd)
 				cmd = join_args(parse, i);
-			check_red(parse, t_pipe,i);
+			if (k == 1337)
+				exit(1);
 			do_command(parse, i, cmd);
 		}
 	}
@@ -248,11 +252,7 @@ void h_d(t_parse *parse)
 			while (c < parse->data[i].num_red)
 			{
 				if (parse->data[i].red[c].type == HERDOC)
-				{
-					// printf("hayiii ghi\n");
-					// printf("%s\n", parse->data[i].red)
 					here_doc(parse, ft_strdup(parse->data[i].red[c].file), i);
-				}
 				c++;
 			}
 		}

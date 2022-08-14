@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:01:44 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/14 10:41:07 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/14 18:10:45 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void start(t_parse *parse,int i, pipex *t_pipe, char **comd)
             close(t_pipe->fd[1]);
             do_command(parse,i, comd);
         }
+        else if (check_red(parse, t_pipe, i) == 1337)
+            exit(1);
         else
         {
             dup2(t_pipe->fd[1], 1);
@@ -110,6 +112,7 @@ int check_red(t_parse *parse, pipex *t_pipe, int i)
     int c;
 
     c = 0;
+    dup2(t_pipe->save[1], 1);
     if (parse->data[i].num_red >= 1)
     {
         while (c < parse->data[i].num_red)
@@ -120,7 +123,7 @@ int check_red(t_parse *parse, pipex *t_pipe, int i)
                 {
                     dup2(t_pipe->save[1], 1);
                     printf("file %s does not exist\n", parse->data[i].red[c].file);
-                    exit(1);
+                    return (1337);
                 }
                 t_pipe->file_inpt = open(parse->data[i].red[c].file, O_RDONLY, 0644);
                 dup2(t_pipe->file_inpt, 0);
@@ -140,7 +143,7 @@ int check_red(t_parse *parse, pipex *t_pipe, int i)
                 dup2(parse->data[i].fd[0], 0);
             c++;
         }
-        if (t_pipe->out != 1)
+        if (t_pipe->out != 1 && parse->num_data != 1)
             dup2(t_pipe->fd[1], 1);
 
         return (1);
