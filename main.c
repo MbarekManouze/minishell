@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/08 16:04:04 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/14 10:32:12 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,12 @@ int	main(int ac, char **av, char **env)
 	t_pipe = malloc(sizeof(pipex));
 	t_pipe->save[0] = dup(0);
 	t_pipe->save[1] = dup(1);
+	t_pipe->out = 0;
+	t_pipe->cmd_number = 0;
 	parse->env = ft_env(env);
 	while (1)
 	{
+		t_pipe->id = 0;
 		signal(SIGINT, sig_int);
 		signal(SIGQUIT, SIG_IGN);
 		str = readline("bash-0.2$ ");
@@ -136,6 +139,7 @@ int	main(int ac, char **av, char **env)
 			continue;
 		if (check_for_builtins(parse))
 			continue;
+		wait_cmd(t_pipe, parse);
 		ft_begin(parse, t_pipe);
 		ft_free(parse);
 		dup2(t_pipe->save[0], 0);
@@ -151,9 +155,9 @@ int check_for_builtins(t_parse *parse)
 	j = 0;
 	if (parse->num_data == 1)
 	{
-		if (!strcmp(parse->data[0].cmd, "pwd") || !strcmp(parse->data[0].cmd, "export") || !strcmp(parse->data[0].cmd, "env")
-        	|| !strcmp(parse->data[0].cmd, "unset") || !strcmp(parse->data[0].cmd, "cd") || !strcmp(parse->data[0].cmd, "exit")
-			|| !strcmp(parse->data[0].cmd, "echo"))
+		if (!ft_strcmp(parse->data[0].cmd, "pwd") || !ft_strcmp(parse->data[0].cmd, "export") || !ft_strcmp(parse->data[0].cmd, "env")
+        	|| !ft_strcmp(parse->data[0].cmd, "unset") || !ft_strcmp(parse->data[0].cmd, "cd") || !ft_strcmp(parse->data[0].cmd, "exit")
+			|| !ft_strcmp(parse->data[0].cmd, "echo"))
     	{
 			comd = join_args(parse, 0);
       		excute_builtins(comd, parse);
@@ -172,7 +176,7 @@ void ft_begin(t_parse *parse, pipex *t_pipe)
 {
 	(void)t_pipe;
 
-	// h_d(parse, t_pipe);
+	h_d(parse);
 	commands(parse, t_pipe);
 }
 
@@ -181,15 +185,13 @@ void commands(t_parse *parse, pipex *t_pipe)
 	char **cmd;
 	int i;
 	int j;
-	int id1;
 	int k;
 
 	i = 0;
 	j = 0;
 	k = 0;
 	while (i < parse->num_data - 1)
-	{
-		if (parse->data[i].cmd == NULL)
+	{		if (parse->data[i].cmd == NULL)
 		{
 			j = check_red(parse, t_pipe, i);
 			i++;
@@ -205,31 +207,43 @@ void commands(t_parse *parse, pipex *t_pipe)
 		}
 		i++;
 	}
-	id1 = fork();
-	if (id1 == 0)
+	t_pipe->wait_id[t_pipe->id] = fork();
+	if (t_pipe->wait_id[t_pipe->id] == 0)
 	{
 		if (parse->data[i].cmd)
 			cmd = join_args(parse, i);
 		k = check_red(parse, t_pipe,i);
 		do_command(parse, i, cmd);
 	}
+	t_pipe->id = 0;
 	close(0);
-	while (wait(NULL) != -1){}
+	// if (parse->num_data == 1)
+	// 	waitpid(t_pipe->wait_id[t_pipe->id], 0, 0);
+	// else
+	// {
+		while (t_pipe->id < t_pipe->cmd_number)
+		{
+			printf("id ;%d\n", t_pipe->wait_id[t_pipe->id]);
+			if (waitpid(t_pipe->wait_id[t_pipe->id], 0, 0) == -1)
+			{
+				write(2, "alriiiiiiiiight\n", 17);
+				exit(1);
+			}
+			t_pipe->id++;
+		}
+	// }
+	free(t_pipe->wait_id);
+	close(t_pipe->dup_hd);
+	t_pipe->wait_id = 0;
 }
 
-void h_d(t_parse *parse, pipex *t_pipe)
+void h_d(t_parse *parse)
 {
 	int i;
-	int j;
 	int c;
 	int s;
-	int h;
-	int k;
 
 	i = 0;
-	j = 0;
-	k = 0;
-	h =  count_h_d(parse);
 	while (i < parse->num_data)
 	{
 		c = 0;
@@ -238,16 +252,8 @@ void h_d(t_parse *parse, pipex *t_pipe)
 			while (c < parse->data[i].num_red)
 			{
 				if (parse->data[i].red[c].type == HERDOC)
-				{
-					s = here_doc(t_pipe, ft_strdup(parse->data[i].red->file));
-					k++;
-				}
+					s = here_doc(parse, ft_strdup(parse->data[i].red->file), i);
 				c++;
-				if (k == h)
-				{
-					printf(">>>>here<<<<\n");
-					execute_hd(s, i, parse);
-				}
 			}
 		}
 		i++;

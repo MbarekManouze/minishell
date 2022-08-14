@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:54:54 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/07/20 21:11:32 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/14 10:43:50 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	**error_management(char *str, t_parse *parse)
 
 int	ft_strcmp(char *s1, char *s2)
 {
+	if (!s1)
+		return (1);
 	while (*s1 != '\0' && *s1 == *s2)
 	{
 		s1++;

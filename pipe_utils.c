@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:23:03 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/07/22 10:33:42 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/14 10:38:56 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int     ft_strncmp(const char   *s1, const char *s2, size_t n)
 
         str = (unsigned char *)s1;
         ssr = (unsigned char *)s2;
-        if (n == 0)
-                return (0);
         i = 0;
         while ((str[i] && ssr[i]) && str[i] == ssr[i] && i < n - 2)
                 i++;

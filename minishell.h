@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/08 12:10:49 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/14 10:37:16 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_red
 
 typedef struct s_data
 {
+	int 	*fd;
 	char	*cmd;
 	char	**args;
 	int		num_red;
@@ -61,6 +62,7 @@ typedef struct pipex_bonus
 	char *cmd_path;
 	char *all_line;
 	char **argv;
+	int out;
     int cmd_number;
 	int file_inpt;
 	int file_outpt;
@@ -68,7 +70,13 @@ typedef struct pipex_bonus
     int fd[2];
     int hr_dc[2];
 	int save[2];
+	// int file_idx;
+	// int *hd_files;
+	int *wait_id;
+	int id;
     char *limiter;
+	int dup_hd;
+	int idx;
 }  pipex;
 
 char	**ft_split(char *s, char c);
@@ -154,7 +162,7 @@ char	*get_next_line(int fd);
 char	*ft_substr(char *s, int start, int len);
 char	*find_nl(char *buffer);
 char    **join_args(t_parse *parse, int i);
-int here_doc(pipex *h_doc, char *limiter);
+int 	here_doc(t_parse *parse, char *limiter,int i);
 // char *command_path(char *cmd, char **paths);
 // char **ft_paths(char **env);
 void ft_begin(t_parse *parse, pipex *t_pipe);
@@ -162,13 +170,14 @@ void start(t_parse *parse,int i, pipex *t_pipe, char **env);
 void do_command(t_parse *parse,int i, char **comd);
 void commands(t_parse *parse, pipex *t_pipe);
 char    *join_data(char *s1, char *s2);
-void h_d(t_parse *parse, pipex *t_pipe);
-void execute_hd(int s,int i, t_parse *parse);
+void h_d(t_parse *parse);
 int count_h_d(t_parse *parse);
 void open_files(t_parse *parse);
 int check_red(t_parse *parse,pipex *t_pipe, int i);
 void close_extra_files(pipex *t_pipe);
 void set_red(t_parse *parse, pipex *t_pipe, int c, int i);
 int check_for_builtins(t_parse *parse);
+int find_here_d(t_parse *parse, int i);
+void wait_cmd(pipex *t_pipe, t_parse *parse);
 
 #endif

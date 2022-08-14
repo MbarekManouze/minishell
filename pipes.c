@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:01:44 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/08 11:29:29 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/14 10:41:07 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void do_command(t_parse *parse,int i, char **comd)
         || !strcmp(comd[0], "cd") || !strcmp(comd[0], "exit")
         || !strcmp(comd[0], "echo"))
     {
-        fprintf(stderr, "****hnaaa\n");
         excute_builtins(comd, parse);
         exit(1) ;
     }
@@ -79,23 +78,13 @@ void do_command(t_parse *parse,int i, char **comd)
 
 void start(t_parse *parse,int i, pipex *t_pipe, char **comd)
 {
-    int id;
-
-    // if (!strcmp(comd[0], "pwd") || !strcmp(comd[0], "export") || !strcmp(comd[0], "env")
-    //     || !strcmp(comd[0], "unset") || !strcmp(comd[0], "cd") || !strcmp(comd[0], "exit"))
-    // {
-    //     fprintf(stderr, "ana hnaaaa ahh db\n");
-    //     excute_builtins(parse);
-    //     return ;
-    // }
     pipe(t_pipe->fd);
-    id = fork();
-    if (id == 0)
+    t_pipe->wait_id[t_pipe->id] = fork();
+    if (t_pipe->wait_id[t_pipe->id++] == 0)
     {
         if (check_red(parse, t_pipe, i) == 1)
         {
-            if (i == 0)
-                dup2(t_pipe->fd[1], 1);
+            t_pipe->out = 0;
             close(t_pipe->fd[0]);
             close(t_pipe->fd[1]);
             do_command(parse,i, comd);
@@ -138,6 +127,7 @@ int check_red(t_parse *parse, pipex *t_pipe, int i)
             }
             else if (parse->data[i].red[c].type == 2)
             {
+                t_pipe->out = 1;
                 t_pipe->file_outpt = open(parse->data[i].red[c].file, O_CREAT | O_RDWR | O_TRUNC, 0644);
                 dup2(t_pipe->file_outpt, 1);
             }
@@ -146,9 +136,34 @@ int check_red(t_parse *parse, pipex *t_pipe, int i)
                 t_pipe->file_appnd = open(parse->data[i].red[c].file, O_CREAT | O_APPEND | O_RDWR, 0644);
                 dup2(t_pipe->file_appnd, 1);
             }
+            else if (parse->data[i].red[c].type == 3)
+                dup2(parse->data[i].fd[0], 0);
             c++;
         }
+        if (t_pipe->out != 1)
+            dup2(t_pipe->fd[1], 1);
+
         return (1);
     }
     return (0);
+}
+
+void wait_cmd(pipex *t_pipe, t_parse *parse)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    if (parse->num_data >= 1)
+    {
+        while (i < parse->num_data)
+        {
+            if (parse->data[i].cmd)
+                j++;
+            i++;
+        }
+    }
+    t_pipe->cmd_number = j;
+    t_pipe->wait_id = malloc(sizeof(int) * (j));
 }
