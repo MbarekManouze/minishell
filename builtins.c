@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:30:14 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/08 15:32:30 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/16 18:56:38 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	modify_oldpwd(char **env)
 	char	*s1;
 
 	s = getcwd(NULL, 0);
+	if (!s)
+		return ;
 	s1 = ft_strjoin2("OLDPWD=", s);
 	i = 0;
 	while (env[i])
@@ -26,7 +28,7 @@ void	modify_oldpwd(char **env)
 		if (!strncmp("OLDPWD", env[i], 6))
 		{
 			free(env[i]);
-			env[i] = strdup(s1);
+			env[i] = ft_strdup(s1);
 		}
 		i++;
 	}
@@ -40,6 +42,8 @@ void	modify_pwd(char **env)
 	char	*s1;
 
 	s = getcwd(NULL, 0);
+	if (!s)
+		return ;
 	s1 = ft_strjoin2("PWD=", s);
 	i = 0;
 	while (env[i])
@@ -53,6 +57,7 @@ void	modify_pwd(char **env)
 	}
 	free(s1);
 }
+
 
 int	cher_home(char *s, char **env)
 {
@@ -118,6 +123,12 @@ void	ft_cd(char **tab, t_parse *parse)
 				printf("Error\n");
 			modify_pwd(parse->env);
 		}
+	}
+	else if (!ft_strcmp(tab[0], "."))
+	{
+		s = getcwd(NULL, 0);
+		if (!s)
+			printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
 	}
 	else
 	{

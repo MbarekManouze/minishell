@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:36:35 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/07/16 11:41:21 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/16 19:17:14 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,22 @@ int	check_qoutes3(char *str, int i, t_parse *parse, char c)
 	return (i);
 }
 
+int	check_qoutes4(char *str, int i, t_parse *parse, char c)
+{
+	parse->sqoute++;
+	i++;
+	while (str[i])
+	{
+		if (str[i] == c)
+		{
+			parse->sqoute++;
+			break ;
+		}
+		i++;
+	}
+	return (i);
+}
+
 int	check_qoutes2(char *str, t_parse *parse)
 {
 	int	i;
@@ -40,10 +56,14 @@ int	check_qoutes2(char *str, t_parse *parse)
 		if (str[i] == '"')
 		{
 			i = check_qoutes3(str, i, parse, '"');
+			if (!str[i])
+				break ;
 		}
 		else if (str[i] == 39)
 		{
-			i = check_qoutes3(str, i, parse, 39);
+			i = check_qoutes4(str, i, parse, 39);
+			if (!str[i])
+				break ;
 		}
 		i++;
 	}

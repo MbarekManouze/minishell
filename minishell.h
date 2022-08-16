@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 16:08:49 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/16 19:19:32 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ typedef struct pipex_bonus
     int fd[2];
     int hr_dc[2];
 	int save[2];
-	// int file_idx;
-	// int *hd_files;
+	int in_err;
 	int *wait_id;
 	int id;
     char *limiter;
@@ -79,7 +78,15 @@ typedef struct pipex_bonus
 	int idx;
 }  pipex;
 
-int		g_status;
+typedef struct s_global
+{
+	int	g_herd;
+	int	g_status;
+}		t_global;
+
+
+t_global 	g_status;
+void	sig_int(int sign);
 char	**ft_split(char *s, char c);
 char	*ft_itoa(int n);
 size_t	ft_strlen(char *s);
@@ -146,7 +153,7 @@ void	print_tab(char **tab, int n);
 void	ft_echo(char **tab);
 void	ft_unset(char **tab, t_parse *parse);
 char	**ft_unset2(char *str, char **env);
-void	ft_pwd(void);
+void	ft_pwd(t_parse *p);
 void	print_env(t_parse *parse);
 void	ft_cd(char **tab, t_parse *parse);
 void	modify_oldpwd(char **env);
@@ -179,9 +186,9 @@ int count_h_d(t_parse *parse);
 void open_files(t_parse *parse);
 int check_red(t_parse *parse,pipex *t_pipe, int i);
 void close_extra_files(pipex *t_pipe);
-void set_red(t_parse *parse, pipex *t_pipe, int c, int i);
 int check_for_builtins(t_parse *parse, pipex *t_pipe);
 int find_here_d(t_parse *parse, int i);
 void wait_cmd(pipex *t_pipe, t_parse *parse);
+void set_red(t_parse *parse, pipex *t_pipe, int i);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 18:10:31 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/16 19:19:51 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	excute_builtins(char **comd, t_parse *parse)
 	else if (!strcmp(comd[0], "unset"))
 		ft_unset(comd+1, parse);
 	else if (!strcmp(comd[0], "pwd"))
-		ft_pwd();
+		ft_pwd(parse);
 	else if (!strcmp(comd[0], "cd"))
 		ft_cd(comd+1, parse);
 	else if (!strcmp(comd[0], "exit"))
@@ -34,7 +34,7 @@ void	excute_builtins(char **comd, t_parse *parse)
 
 void	sig_int(int sign)
 {
-	if (sign == SIGINT)
+	if (sign == SIGINT && !g_status.g_herd)
 	{
 		printf("\n");
 		rl_replace_line("", 0);
@@ -123,6 +123,7 @@ int	main(int ac, char **av, char **env)
 	t_pipe->save[1] = dup(1);
 	t_pipe->out = 0;
 	t_pipe->cmd_number = 0;
+	t_pipe->in_err = 0;
 	parse->env = ft_env(env);
 	while (1)
 	{
@@ -131,15 +132,19 @@ int	main(int ac, char **av, char **env)
 		signal(SIGQUIT, SIG_IGN);
 		str = readline("bash-0.2$ ");
 		if (!str)
+		{
+			printf("exit\n");
 			exit (0);
+		}
 		if (check(str) || check_space(str))
 			continue;
 		add_history(str);
 		if (!parser(str, parse))
 			continue;
+		wait_cmd(t_pipe, parse);
+		// printf("============ %d\n", t_pipe->cmd_number);
 		if (check_for_builtins(parse, t_pipe))
 			continue;
-		wait_cmd(t_pipe, parse);
 		ft_begin(parse, t_pipe);
 		ft_free(parse);
 		dup2(t_pipe->save[0], 0);
@@ -151,17 +156,20 @@ int check_for_builtins(t_parse *parse, pipex *t_pipe)
 {
 	char **comd;
 	int j;
+	int i;
 
 	j = 0;
+	i = 0;
 	if (parse->num_data == 1)
 	{
 		if (!ft_strcmp(parse->data[0].cmd, "pwd") || !ft_strcmp(parse->data[0].cmd, "export") || !ft_strcmp(parse->data[0].cmd, "env")
         	|| !ft_strcmp(parse->data[0].cmd, "unset") || !ft_strcmp(parse->data[0].cmd, "cd") || !ft_strcmp(parse->data[0].cmd, "exit")
 			|| !ft_strcmp(parse->data[0].cmd, "echo"))
     	{
-			check_red(parse, t_pipe,0);
+			h_d(parse);
+			i = check_red(parse, t_pipe,0);
 			comd = join_args(parse, 0);
-      		excute_builtins(comd, parse);
+			excute_builtins(comd, parse);
 			dup2(t_pipe->save[0], 0);
 			dup2(t_pipe->save[1], 1);
 			while (comd[j])
@@ -178,7 +186,9 @@ int check_for_builtins(t_parse *parse, pipex *t_pipe)
 void ft_begin(t_parse *parse, pipex *t_pipe)
 {
 	(void)t_pipe;
+	(void)parse;
 
+	// printf("%d\n", t_pipe->cmd_number);
 	h_d(parse);
 	commands(parse, t_pipe);
 }
@@ -189,11 +199,13 @@ void commands(t_parse *parse, pipex *t_pipe)
 	int i;
 	int j;
 	int k;
+	int status;
 
 	i = 0;
 	j = 0;
 	while (i < parse->num_data - 1)
-	{		if (parse->data[i].cmd == NULL)
+	{	
+		if (parse->data[i].cmd == NULL)
 		{
 			j = check_red(parse, t_pipe, i);
 			i++;
@@ -209,6 +221,7 @@ void commands(t_parse *parse, pipex *t_pipe)
 		}
 		i++;
 	}
+	// g_status.g_status = 0;
 	k = check_red(parse, t_pipe,i);
 	if (find_here_d(parse, i) || parse->data[i].cmd)
 	{
@@ -217,7 +230,12 @@ void commands(t_parse *parse, pipex *t_pipe)
 		{
 			if (parse->data[i].cmd)
 				cmd = join_args(parse, i);
-			if (k == 1337)
+			if (g_status.g_status == 13)
+			{
+				write(2, "permission denied\n", 19);
+				exit(13);
+			}
+			if (g_status.g_status == 1)
 				exit(1);
 			do_command(parse, i, cmd);
 		}
@@ -225,12 +243,19 @@ void commands(t_parse *parse, pipex *t_pipe)
 	t_pipe->id = 0;
 	close(0);
 	while (t_pipe->id < t_pipe->cmd_number)
-	{
-		if (waitpid(t_pipe->wait_id[t_pipe->id], 0, 0) == -1)
+	{   
+		// printf("+-+--+-+ %d\n", g_status);
+		if (waitpid(t_pipe->wait_id[t_pipe->id], &status, 0) == -1)
 		{
 			write(2, "alriiiiiiiiight\n", 17);
 			exit(1);
 		}
+		if(WIFEXITED(status))
+			g_status.g_status = WEXITSTATUS(status);
+		if (status == 2)
+			g_status.g_status = 130;
+		if (status == 3)
+			g_status.g_status = 131;
 		t_pipe->id++;
 	}
 	free(t_pipe->wait_id);
@@ -242,6 +267,8 @@ void h_d(t_parse *parse)
 {
 	int i;
 	int c;
+	int id;
+	int sts;
 
 	i = 0;
 	while (i < parse->num_data)
@@ -252,7 +279,23 @@ void h_d(t_parse *parse)
 			while (c < parse->data[i].num_red)
 			{
 				if (parse->data[i].red[c].type == HERDOC)
-					here_doc(parse, ft_strdup(parse->data[i].red[c].file), i);
+				{
+					pipe(parse->data[i].fd);
+					id = fork();
+					if (id == 0)
+						here_doc(parse, ft_strdup(parse->data[i].red[c].file), i);
+					else
+					{
+						waitpid(id, &sts, 0);
+						// if(WIFEXITED(sts))
+						if (sts == 2)
+							g_status.g_status = 1;
+						else
+							g_status.g_status = 0;
+
+						close(parse->data[i].fd[1]);
+					}
+				}
 				c++;
 			}
 		}

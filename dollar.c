@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:32:31 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 20:25:57 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/16 19:04:02 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,19 @@ int	count_status(char *str)
 	return (count);
 }
 
+void	ft_join(char *s, char *str, int *i)
+{
+	int	j;
+
+	j = 0;
+	while (str[j])
+	{
+		s[(*i)] = str[j];
+		j++;
+		(*i)++;
+	}
+}
+
 char	*expand_status(char *str)
 {
     int i;
@@ -125,7 +138,7 @@ char	*expand_status(char *str)
     char    *string;
 
 	i = count_status(str);
-	string = ft_itoa(g_status);
+	string = ft_itoa(g_status.g_status);
 	s = malloc((ft_strlen(str) - (i * 2)) + (i * ft_strlen(string)) + 1);
     i = 0;
     j = 0;
@@ -148,9 +161,7 @@ char	*expand_status(char *str)
             {
                 if (str[i] == '$' && str[i + 1] == '?')
                 {
-					s[j++] = '\0';
-                    s = ft_strjoin3(s, string);
-                    j = strlen(s);
+                    ft_join(s, string, &j);
                     i++;
                 }
 				else
@@ -161,9 +172,7 @@ char	*expand_status(char *str)
         }
         else if (str[i] == '$' && str[i + 1] == '?')
         {
-			s[j++] = '\0';
-            s = ft_strjoin3(s, string);
-            j = ft_strlen(s);
+            ft_join(s, string, &j);
             i++;
         }
         else
@@ -172,6 +181,7 @@ char	*expand_status(char *str)
     }
     s[j] = '\0';
 	free(str);
+	free(string);
     return (s);
 }
 

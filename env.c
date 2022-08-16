@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 16:11:28 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/14 12:04:32 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/16 19:08:05 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ char	**ft_env(char **env)
 		tab[i] = ft_strdup(env[i]);
 		i++;
 	}
-	tab[i] = ft_strdup("?=0");
-	i++;
 	tab[i] = 0;
 	return (tab);
 }

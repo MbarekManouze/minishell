@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:03:12 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/07/23 12:14:06 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/16 19:11:27 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,21 @@ void	print_env(t_parse *parse)
 	}
 }
 
-void	ft_pwd(void)
+void	ft_pwd(t_parse *p)
 {
 	char	*s;
-
+	char	*str;
 	s = getcwd(NULL, 0);
-	printf("%s\n", s);
+	if (!s)
+	{
+		str = env_cher("PWD", p->env);
+		if (!str)
+			printf("bash: PWD not set\n");
+		else
+			printf("%s/.\n", str);
+		free(str);
+	}
+	else
+		printf("%s\n", s);
 	free(s);
 }

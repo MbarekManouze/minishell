@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:30:31 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/07/20 19:29:29 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/16 19:08:48 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,28 @@ char	*str_to_split2(char *str, char c)
 		else if (s[i] == '"')
 		{
 			i++;
+			if (s[i] == '\0')
+				break ;
 			while (s[i] != '"' && s[i])
 				i++;
+			if (s[i] == '\0')
+				break ;
 		}
 		else if (s[i] == 39)
 		{
 			i++;
+			if (s[i] == '\0')
+				break ;
 			while (s[i] != 39 && s[i])
 				i++;
+			if (s[i] == '\0')
+				break ;
 		}
 		i++;
 	}
 	return (s);
 }
+
 
 int	check_pipes(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:54:57 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 12:00:01 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/16 18:57:38 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	variable_c(char *str, int *count, int *i, t_parse *p)
 		(*count) += ft_strlen(s);
 		free(s);
 	}
+	else
+		(*count) += k;
 }
 
 int	variable_count(char *str, t_parse *p)

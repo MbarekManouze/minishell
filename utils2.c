@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:54:54 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 20:27:02 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/16 19:18:03 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ char	*ft_strjoin3(char *s1, char *s2)
 		i++;
 		j++;
 	}
-	//str[i] = '\0';
+	str[i] = '\0';
 	free(s1);
 	return (str);
 }
