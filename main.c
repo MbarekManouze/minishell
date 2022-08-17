@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/16 19:19:51 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/17 16:41:24 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	sig_int(int sign)
 {
 	if (sign == SIGINT && !g_status.g_herd)
 	{
+		g_status.g_status = 1;
 		printf("\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -125,6 +126,7 @@ int	main(int ac, char **av, char **env)
 	t_pipe->cmd_number = 0;
 	t_pipe->in_err = 0;
 	parse->env = ft_env(env);
+	g_status.g_status = 0;
 	while (1)
 	{
 		t_pipe->id = 0;
@@ -134,7 +136,7 @@ int	main(int ac, char **av, char **env)
 		if (!str)
 		{
 			printf("exit\n");
-			exit (0);
+			exit (g_status.g_status);
 		}
 		if (check(str) || check_space(str))
 			continue;
@@ -142,9 +144,13 @@ int	main(int ac, char **av, char **env)
 		if (!parser(str, parse))
 			continue;
 		wait_cmd(t_pipe, parse);
-		// printf("============ %d\n", t_pipe->cmd_number);
 		if (check_for_builtins(parse, t_pipe))
+		{
+			dup2(t_pipe->save[0], 0);
+			dup2(t_pipe->save[1], 1);
+			ft_free(parse);
 			continue;
+		}
 		ft_begin(parse, t_pipe);
 		ft_free(parse);
 		dup2(t_pipe->save[0], 0);
@@ -156,10 +162,9 @@ int check_for_builtins(t_parse *parse, pipex *t_pipe)
 {
 	char **comd;
 	int j;
-	int i;
+	int k;
 
 	j = 0;
-	i = 0;
 	if (parse->num_data == 1)
 	{
 		if (!ft_strcmp(parse->data[0].cmd, "pwd") || !ft_strcmp(parse->data[0].cmd, "export") || !ft_strcmp(parse->data[0].cmd, "env")
@@ -167,11 +172,11 @@ int check_for_builtins(t_parse *parse, pipex *t_pipe)
 			|| !ft_strcmp(parse->data[0].cmd, "echo"))
     	{
 			h_d(parse);
-			i = check_red(parse, t_pipe,0);
+			k = check_red(parse, t_pipe,0);
+			if (g_status.g_status == 1 && k == 1)
+				return (1);
 			comd = join_args(parse, 0);
 			excute_builtins(comd, parse);
-			dup2(t_pipe->save[0], 0);
-			dup2(t_pipe->save[1], 1);
 			while (comd[j])
 			{
 				free(comd[j]);
@@ -188,7 +193,7 @@ void ft_begin(t_parse *parse, pipex *t_pipe)
 	(void)t_pipe;
 	(void)parse;
 
-	// printf("%d\n", t_pipe->cmd_number);
+	g_status.g_status = 0;
 	h_d(parse);
 	commands(parse, t_pipe);
 }
@@ -221,7 +226,6 @@ void commands(t_parse *parse, pipex *t_pipe)
 		}
 		i++;
 	}
-	// g_status.g_status = 0;
 	k = check_red(parse, t_pipe,i);
 	if (find_here_d(parse, i) || parse->data[i].cmd)
 	{
@@ -244,7 +248,6 @@ void commands(t_parse *parse, pipex *t_pipe)
 	close(0);
 	while (t_pipe->id < t_pipe->cmd_number)
 	{   
-		// printf("+-+--+-+ %d\n", g_status);
 		if (waitpid(t_pipe->wait_id[t_pipe->id], &status, 0) == -1)
 		{
 			write(2, "alriiiiiiiiight\n", 17);
@@ -258,8 +261,8 @@ void commands(t_parse *parse, pipex *t_pipe)
 			g_status.g_status = 131;
 		t_pipe->id++;
 	}
-	free(t_pipe->wait_id);
-	close(t_pipe->dup_hd);
+	if (t_pipe->cmd_number)
+		free(t_pipe->wait_id);
 	t_pipe->wait_id = 0;
 }
 
@@ -287,12 +290,10 @@ void h_d(t_parse *parse)
 					else
 					{
 						waitpid(id, &sts, 0);
-						// if(WIFEXITED(sts))
 						if (sts == 2)
 							g_status.g_status = 1;
 						else
 							g_status.g_status = 0;
-
 						close(parse->data[i].fd[1]);
 					}
 				}

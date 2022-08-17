@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:26:20 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/16 16:16:22 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/17 16:13:45 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	clean_red(t_parse *p, int i)
 		p->data[i].red[h].file = remove_qoutes(p->data[i].red[h].file);
 		h++;
 	}
-	//system("leaks minishell");
 }
 
 int	parsing(char **tab, t_parse *p)

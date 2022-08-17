@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:30:14 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/16 18:56:38 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/17 15:22:41 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,8 +204,13 @@ void	ft_exit(char **tab)
 	i = 0;
 	if (!tab[0])
 	{
-		printf("exit\n");
-		exit (0);
+		if (!g_status.g_id)
+		{
+			printf("exit\n");
+			exit (g_status.g_status);
+		}
+		else
+			exit (g_status.g_status);
 	}
 	if (!check_num(tab[0]))
 	{

@@ -6,23 +6,16 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 11:04:17 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/16 16:47:50 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/17 15:57:58 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void    hundler(int sig)
-// {
-//     if (sig == SIGINT)
-//         return ;
-// }
-
 int here_doc(t_parse *parse, char *limiter, int i)
 {
     char *read;
 
-    // pipe(parse->data[i].fd);
     g_status.g_herd = 1;
     signal(SIGINT, SIG_DFL);
     while (1)
@@ -33,14 +26,13 @@ int here_doc(t_parse *parse, char *limiter, int i)
             free(read);
             exit(0);
         }
-        else if (!ft_strncmp(limiter, read, ft_strlen(read) - 1))
+        else if (!ft_strcmp(limiter, read))
         {
             free(read);
             free(limiter);
-            // close(parse->data[i].fd[1]);
-            // parse->data[i].fd[1] = -1;
             exit(1);
         }
+        read = dollar_hundler(read, parse);
         write(parse->data[i].fd[1], read, ft_strlen(read));
         write(parse->data[i].fd[1], "\n", 1);
         free(read);

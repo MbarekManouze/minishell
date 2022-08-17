@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/16 19:19:32 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/17 15:20:01 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct pipex_bonus
     int hr_dc[2];
 	int save[2];
 	int in_err;
+	int out_err;
 	int *wait_id;
 	int id;
     char *limiter;
@@ -82,6 +83,7 @@ typedef struct s_global
 {
 	int	g_herd;
 	int	g_status;
+	int g_id;
 }		t_global;
 
 
@@ -190,5 +192,6 @@ int check_for_builtins(t_parse *parse, pipex *t_pipe);
 int find_here_d(t_parse *parse, int i);
 void wait_cmd(pipex *t_pipe, t_parse *parse);
 void set_red(t_parse *parse, pipex *t_pipe, int i);
+int not_builtins(t_parse *parse, int i);
 
 #endif
