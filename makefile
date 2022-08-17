@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+         #
+#    By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 11:43:45 by ressalhi          #+#    #+#              #
-#    Updated: 2022/08/17 15:29:03 by mmanouze         ###   ########.fr        #
+#    Updated: 2022/08/17 18:06:10 by ressalhi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = gcc
-CFLAGS = -lreadline -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -lreadline -Wall -Wextra -Werror #-g -fsanitize=address
 SRC =	main.c ft_split.c expand.c env.c errors.c parsing.c redirections.c \
 		remove_trash.c utils.c utils2.c dollar.c dollar2.c dollar_utils.c \
 		unset.c echo.c export.c builtins.c pipes.c pipe_utils.c here_doc.c ft_itoa.c \

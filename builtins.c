@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:30:14 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/17 15:22:41 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/17 18:41:36 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	cher_home(char *s, char **env)
 		j = strncmp(s, env[i], ft_strlen(s));
 		if (j == 0)
 		{
-			if (env[i][ft_strlen(s)] == '=')
+			if (env[i][ft_strlen(s)] == '=' || env[i][ft_strlen(s)] == '\0')
 				return (i);
 		}
 		i++;
@@ -103,12 +103,14 @@ void	ft_cd(char **tab, t_parse *parse)
 	int		i;
 	char	*s;
 
+	g_status.g_status = 0;
 	if (!tab[0])
 	{
 		i = cher_home("HOME", parse->env);
 		if (i == -1)
 		{
 			printf("bash: cd: HOME not set\n");
+			g_status.g_status = 1;
 			return ;
 		}
 		else
@@ -120,7 +122,10 @@ void	ft_cd(char **tab, t_parse *parse)
 			i = chdir(s);
 			free(s);
 			if (i != 0)
-				printf("Error\n");
+			{
+				g_status.g_status = 1;
+				printf("bash: cd: %s: No such file or directory\n", s);
+			}
 			modify_pwd(parse->env);
 		}
 	}
@@ -128,7 +133,11 @@ void	ft_cd(char **tab, t_parse *parse)
 	{
 		s = getcwd(NULL, 0);
 		if (!s)
+		{
+			free(s);
 			printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+		}
+		free(s);
 	}
 	else
 	{
@@ -137,6 +146,7 @@ void	ft_cd(char **tab, t_parse *parse)
 		if (i != 0)
 		{
 			printf("bash: cd: %s: No such file or directory\n", tab[0]);
+			g_status.g_status = 1;
 			return ;
 		}
 		modify_pwd(parse->env);
