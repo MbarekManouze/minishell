@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:26:20 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/17 16:13:45 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/18 18:53:02 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ int	parsing(char **tab, t_parse *p)
 		}
 		parsing2(t, p, i);
 		i++;
+		free(t);
 	}
-	free(t);
 	return (1);
 }
 
@@ -128,6 +128,7 @@ int	parser(char *str, t_parse *parse)
 	i = 0;
 	while (tab[i])
 		free(tab[i++]);
+	free(tab[i]);
 	free(tab);
 	return (1);
 }

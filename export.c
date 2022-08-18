@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 19:14:47 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/17 17:07:19 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:49:27 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,10 @@ int	get_index(char *str, char **env)
 	while (env[i])
 	{
 		if (!strncmp(str, env[i], j))
-			return (i);
+		{
+			if (env[i][j] == '=' || env[i][j] == '\0')
+				return (i);
+		}
 		i++;
 	}
 	return (-1);

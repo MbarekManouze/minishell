@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:30:14 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/17 18:41:36 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:28:33 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void	exit_code(char *str)
 		if (code > 0)
 		{
 			printf("exit\n");
-			code = code % 256;
+			// code = code % 256;
 			exit (code);
 		}
 		else

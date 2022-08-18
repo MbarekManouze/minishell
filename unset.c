@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:03:12 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/17 16:56:02 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/18 14:09:38 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_unset(char **tab, t_parse *parse)
 	{
 		if (!check_valid2(tab[i]))
 		{
-			printf("unset: `%s': not a valid identifier\n", tab[i]);
+			printf("bash: unset: `%s': not a valid identifier\n", tab[i]);
 			g_status.g_status = 1;
 		}
 		else
