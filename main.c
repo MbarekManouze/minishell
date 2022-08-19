@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/18 18:42:30 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/18 20:40:53 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,9 @@ int	main(int ac, char **av, char **env)
 		if (check(str) || check_space(str))
 			continue;
 		add_history(str);
-		//system("leaks minishell");
 		if (!parser(str, parse))
 			continue;
+		//system("leaks minishell");
 		wait_cmd(t_pipe, parse);
 		if (check_for_builtins(parse, t_pipe))
 		{

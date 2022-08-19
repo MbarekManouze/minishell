@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:30:14 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/18 15:28:33 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/19 15:59:32 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ void	ft_cd(char **tab, t_parse *parse)
 		i = cher_home("HOME", parse->env);
 		if (i == -1)
 		{
-			printf("bash: cd: HOME not set\n");
 			g_status.g_status = 1;
+			printf("bash: cd: HOME not set\n");
 			return ;
 		}
 		else
@@ -168,9 +168,6 @@ int	check_num(char *str)
 			count++;
 		if ((str[i] == '-' || str[i] == '+') && str[i + 1] == '\0')
 			return (0);
-		if ((str[i] == '-' || str[i] == '+')
-			&& (str[i - 1] >= '0' && str[i - 1] <= '9'))
-			return (0);
 		if ((str[i] < '0' || str[i] > '9') && str[i] != '-' && str[i] != '+')
 			return (0);
 		i++;
@@ -185,26 +182,13 @@ void	exit_code(char *str)
 	int	code;
 	
 	code = atoi(str);
-	if (code <= 255 && code >= 0)
+	if (!g_status.g_id)
 	{
 		printf("exit\n");
-		exit (code);	
+		exit (code);
 	}
 	else
-	{
-		if (code > 0)
-		{
-			printf("exit\n");
-			// code = code % 256;
-			exit (code);
-		}
-		else
-		{
-			printf("exit\n");
-			code = (code % 256) + 256;
-			exit (code);
-		}
-	}
+		exit (code);
 }
 
 void	ft_exit(char **tab)
@@ -224,15 +208,25 @@ void	ft_exit(char **tab)
 	}
 	if (!check_num(tab[0]))
 	{
-		printf("exit\nbash: exit: %s: numeric argument required\n", tab[0]);
-		exit (255);
+		if (!g_status.g_id)
+		{
+			printf("exit\nbash: exit: %s: numeric argument required\n", tab[0]);
+			exit (255);
+		}
+		else
+		{
+			printf("bash: exit: %s: numeric argument required\n", tab[0]);
+			exit (255);
+		}
 	}
 	while (tab[i])
 		i++;
 	if (i > 1)
 	{
-		printf("exit\nbash: exit: too many arguments\n");
-		return ;
+		if (!g_status.g_id)
+			printf("exit\nbash: exit: too many arguments\n");
+		else
+			printf("bash: exit: too many arguments\n");
 	}
 	else
 		exit_code(tab[0]);

@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:26:20 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/18 18:53:02 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/18 22:48:38 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	parsing(char **tab, t_parse *p)
 			p->data[i].args = malloc(sizeof(char *));
 			p->data[i].args[0] = NULL;
 			i++;
+			free(t);
 			continue;
 		}
 		parsing2(t, p, i);
@@ -128,7 +129,6 @@ int	parser(char *str, t_parse *parse)
 	i = 0;
 	while (tab[i])
 		free(tab[i++]);
-	free(tab[i]);
 	free(tab);
 	return (1);
 }
