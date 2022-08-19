@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:03:12 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/16 19:11:27 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/18 14:09:38 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,15 @@ void	ft_unset(char **tab, t_parse *parse)
 	while (tab[i])
 	{
 		if (!check_valid2(tab[i]))
-			printf("unset: `%s': not a valid identifier\n", tab[i]);
+		{
+			printf("bash: unset: `%s': not a valid identifier\n", tab[i]);
+			g_status.g_status = 1;
+		}
 		else
+		{
 			parse->env = ft_unset2(tab[i], parse->env);
+			g_status.g_status = 0;
+		}
 		i++;
 	}
 }
@@ -89,6 +95,7 @@ void	print_env(t_parse *parse)
 			printf("%s\n", parse->env[i]);
 		i++;
 	}
+	g_status.g_status = 0;
 }
 
 void	ft_pwd(t_parse *p)
@@ -108,4 +115,5 @@ void	ft_pwd(t_parse *p)
 	else
 		printf("%s\n", s);
 	free(s);
+	g_status.g_status = 0;
 }

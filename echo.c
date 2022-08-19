@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 19:29:35 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/07/04 16:56:45 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/17 16:54:31 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,5 @@ void	ft_echo(char **tab)
 		ft_echo2(tab, i, j);
 	else
 		print_tab(tab, 0);
+	g_status.g_status = 0;
 }

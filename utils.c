@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:36:35 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/16 19:17:14 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/18 20:55:48 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	ft_free_tab(char **tab)
 	i = 0;
 	while (tab[i])
 		free(tab[i++]);
+	free(tab[i]);
 	free(tab);
 }
 

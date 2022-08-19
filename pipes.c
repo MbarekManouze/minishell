@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:01:44 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/17 16:41:58 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/18 18:37:36 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,14 +177,15 @@ int check_red(t_parse *parse, pipex *t_pipe, int i)
             }
             else if (parse->data[i].red[c].type == 4)
             {
-                if (t_pipe->in_err != 9)
+                if (t_pipe->in_err != 9 && t_pipe->out_err == 0 && g_status.g_status != 1)
                 {
+                    t_pipe->file_appnd = open(parse->data[i].red[c].file, O_CREAT | O_APPEND | O_RDWR, 0644);
                     if (access(parse->data[i].red[c].file, W_OK) == -1)
                     {
                         printf("bash: %s: Permission denied\n", parse->data[i].red[c].file); 
+                        t_pipe->out_err = 1;
                         g_status.g_status = 1;
                     }
-                    t_pipe->file_appnd = open(parse->data[i].red[c].file, O_CREAT | O_APPEND | O_RDWR, 0644);
                     dup2(t_pipe->file_appnd, 1);
                 }
             }

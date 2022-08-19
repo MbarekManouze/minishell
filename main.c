@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/17 16:41:24 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/18 20:40:53 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	excute_builtins(char **comd, t_parse *parse)
 		ft_cd(comd+1, parse);
 	else if (!strcmp(comd[0], "exit"))
 		ft_exit(comd+1);
-	else
-		printf("bash: %s: command not found\n", comd[0]);
 }
 
 void	sig_int(int sign)
@@ -143,6 +141,7 @@ int	main(int ac, char **av, char **env)
 		add_history(str);
 		if (!parser(str, parse))
 			continue;
+		//system("leaks minishell");
 		wait_cmd(t_pipe, parse);
 		if (check_for_builtins(parse, t_pipe))
 		{
@@ -182,6 +181,7 @@ int check_for_builtins(t_parse *parse, pipex *t_pipe)
 				free(comd[j]);
 				j++;
 			}
+			free(comd);
 			return (1);
     	}
 	}
@@ -190,9 +190,6 @@ int check_for_builtins(t_parse *parse, pipex *t_pipe)
 
 void ft_begin(t_parse *parse, pipex *t_pipe)
 {
-	(void)t_pipe;
-	(void)parse;
-
 	g_status.g_status = 0;
 	h_d(parse);
 	commands(parse, t_pipe);
@@ -224,6 +221,7 @@ void commands(t_parse *parse, pipex *t_pipe)
 			free(cmd[j]);
 			j++;
 		}
+		free(cmd);
 		i++;
 	}
 	k = check_red(parse, t_pipe,i);
@@ -250,7 +248,7 @@ void commands(t_parse *parse, pipex *t_pipe)
 	{   
 		if (waitpid(t_pipe->wait_id[t_pipe->id], &status, 0) == -1)
 		{
-			write(2, "alriiiiiiiiight\n", 17);
+			write(2, "Error waitpid\n", 15);
 			exit(1);
 		}
 		if(WIFEXITED(status))

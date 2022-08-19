@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:30:31 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/16 19:08:48 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/19 15:42:12 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,17 @@ int	check_pipes(char *str)
 		printf("Syntax error\n");
 		return (0);
 	}
+	if (str[0] == ' ')
+	{
+		while (str[i] == ' ')
+			i++;
+		if (str[i] == '|')
+		{
+			printf("Syntax error\n");
+			return (0);
+		}
+	}
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '|')
@@ -145,6 +156,26 @@ int	check_errors(char *str)
 	i = 0;
 	while (str[i])
 	{
+		if (str[i] == '"')
+		{
+			i++;
+			if (str[i] == '\0')
+				break ;
+			while (str[i] != '"' && str[i])
+				i++;
+			if (str[i] == '\0')
+				break ;
+		}
+		else if (str[i] == 39)
+		{
+			i++;
+			if (str[i] == '\0')
+				break ;
+			while (str[i] != 39 && str[i])
+				i++;
+			if (str[i] == '\0')
+				break ;
+		}
 		if (str[i] == '<' && str[i + 1] == '<')
 		{
 			i = i + 2;

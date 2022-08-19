@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 19:14:47 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/07/19 16:45:17 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:49:27 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,10 @@ int	get_index(char *str, char **env)
 	while (env[i])
 	{
 		if (!strncmp(str, env[i], j))
-			return (i);
+		{
+			if (env[i][j] == '=' || env[i][j] == '\0')
+				return (i);
+		}
 		i++;
 	}
 	return (-1);
@@ -161,6 +164,7 @@ void	export(char **tab, t_parse *parse)
 	int	i;
 	int	j;
 
+	g_status.g_status = 0;
 	sort_env(parse->env);
 	if (!tab[0])
 	{
@@ -179,7 +183,10 @@ void	export(char **tab, t_parse *parse)
 				modify_variable(tab[i], parse->env, j);
 		}
 		else
+		{
 			printf("bash: export: `%s': not a valid identifier\n", tab[i]);
+			g_status.g_status = 1;
+		}
 		i++;
 	}
 }

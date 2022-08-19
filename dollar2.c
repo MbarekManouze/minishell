@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:34:06 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/14 10:27:25 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/17 19:01:32 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,20 @@ char	*env_cher(char *s1, char **env)
 		{
 			s = ft_strdup(env[i] + ft_strlen(s1) + 1);
 			if (env[i][ft_strlen(s1)] == '=')
+			{
+				free(s1);
 				return (s);
+			}
 			else
+			{
+				free(s1);
+				free(s);
 				return (0);
-			free(s1);
+			}
 		}
 		i++;
 	}
+	free(s1);
 	return (0);
 }
 

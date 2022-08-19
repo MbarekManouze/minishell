@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:32:31 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/17 15:11:10 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/17 18:59:23 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	dollar_hundle2(char *s, char *str, t_parse *parse)
 			s[parse->j++] = str[parse->i];
 		parse->i++;
 	}
+	free(str);
 }
 
 int	count_status(char *str)
@@ -138,6 +139,8 @@ char	*expand_status(char *str)
     char    *string;
 
 	i = count_status(str);
+	if (!i)
+		return (str);
 	string = ft_itoa(g_status.g_status);
 	s = malloc((ft_strlen(str) - (i * 2)) + (i * ft_strlen(string)) + 1);
     i = 0;
@@ -199,7 +202,7 @@ char	*dollar_hundler(char *str, t_parse *parse)
 	parse->j = 0;
 	dollar_hundle2(s, str, parse);
 	s[parse->j] = '\0';
-	free(str);
+	//free(str);
 	s = expand_status(s);
 	return (s);
 }

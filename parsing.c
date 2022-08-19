@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:26:20 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/17 16:13:45 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/18 22:48:38 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,13 @@ int	parsing(char **tab, t_parse *p)
 			p->data[i].args = malloc(sizeof(char *));
 			p->data[i].args[0] = NULL;
 			i++;
+			free(t);
 			continue;
 		}
 		parsing2(t, p, i);
 		i++;
+		free(t);
 	}
-	free(t);
 	return (1);
 }
 
