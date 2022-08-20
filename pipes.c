@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:01:44 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/20 18:59:31 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/20 19:13:14 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,10 +145,10 @@ int check_red(t_parse *parse, pipex *t_pipe, int i)
     {
         while (c < parse->data[i].num_red)
         {
-            if (parse->data[i].red[c].type == 1 && g_status.g_status != 1 && parse->data[i].cmd && g_status.g_conti != 1)
+            if (parse->data[i].red[c].type == 1 && g_status.g_status != 1  && g_status.g_conti != 1)
             {
                 g_status.g_status = 0;
-                if (t_pipe->in_err != 9 && parse->data[i].cmd)
+                if (t_pipe->in_err != 9)
                 {
                     t_pipe->file_inpt = open(parse->data[i].red[c].file, O_RDONLY, 0644);
                     dup2(t_pipe->file_inpt, 0);
