@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 18:55:02 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/20 21:49:35 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int check(char *str)
 	int i;
 	
 	i = 0;
-	if (str[i] == '\0')
+	if (!str[i])
 	{
 		free(str);
 		return (1);
@@ -159,7 +159,7 @@ int	main(int ac, char **av, char **env)
 
 int check_for_builtins(t_parse *parse, pipex *t_pipe)
 {
-	char **comd;
+	char **cmd;
 	int j;
 	int k;
 
@@ -174,18 +174,26 @@ int check_for_builtins(t_parse *parse, pipex *t_pipe)
 			k = check_red(parse, t_pipe,0);
 			if (g_status.g_status == 1 && k == 1)
 				return (1);
-			comd = join_args(parse, 0);
-			excute_builtins(comd, parse);
-			while (comd[j])
-			{
-				free(comd[j]);
-				j++;
-			}
-			free(comd);
+			cmd = join_args(parse, 0);
+			excute_builtins(cmd, parse);
+			ft_free2(cmd);
 			return (1);
     	}
 	}
 	return (0);
+}
+
+void ft_free2(char **cmd)
+{
+	int j;
+
+	j = 0;
+	while (cmd[j])
+	{
+		free(cmd[j]);
+		j++;
+	}
+	free(cmd);
 }
 
 void ft_begin(t_parse *parse, pipex *t_pipe)
@@ -201,13 +209,13 @@ void commands(t_parse *parse, pipex *t_pipe)
 	char **cmd;
 	int i;
 	int j;
-	int k;
 	int status;
 
 	i = 0;
 	j = 0;
 	while (i < parse->num_data - 1)
 	{	
+		// printf("ghi %d\n", g_status.g_status);
 		if (parse->data[i].cmd == NULL)
 		{
 			j = check_red(parse, t_pipe, i);
@@ -216,34 +224,10 @@ void commands(t_parse *parse, pipex *t_pipe)
 		}
 		cmd = join_args(parse, i);
 		start(parse, i, t_pipe, cmd);
-		j = 0;
-		while (cmd[j])
-		{
-			free(cmd[j]);
-			j++;
-		}
-		free(cmd);
+		ft_free2(cmd);
 		i++;
 	}
-	k = check_red(parse, t_pipe,i);
-	if (find_here_d(parse, i) || parse->data[i].cmd)
-	{
-		t_pipe->wait_id[t_pipe->id] = fork();
-		if (t_pipe->wait_id[t_pipe->id] == 0)
-		{
-			if (parse->data[i].cmd)
-				cmd = join_args(parse, i);
-			if (g_status.g_conti == 1)
-				exit (1);
-			if (g_status.g_status == 1)
-				exit(1);
-			if (parse->data[i].sign == 1)
-				exit(1);
-			do_command(parse, i, cmd);
-		}
-	}
-	t_pipe->id = 0;
-	close(0);
+	first_last(parse, t_pipe, i);
 	while (t_pipe->id < t_pipe->cmd_number)
 	{   
 		if (waitpid(t_pipe->wait_id[t_pipe->id], &status, 0) == -1)
@@ -262,11 +246,35 @@ void commands(t_parse *parse, pipex *t_pipe)
 		}
 		t_pipe->id++;
 	}
-	if (t_pipe->out_err == 1 || t_pipe->in_err == 9 )
+	if (t_pipe->out_err == 1 || t_pipe->in_err == 9)
 		g_status.g_status = 1;
 	if (t_pipe->cmd_number)
 		free(t_pipe->wait_id);
 	t_pipe->wait_id = 0;
+}
+
+void first_last(t_parse *parse, pipex *t_pipe, int i)
+{
+	int k;
+	char **cmd;
+
+	cmd = NULL;
+	k = check_red(parse, t_pipe,i);
+	if (find_here_d(parse, i) || parse->data[i].cmd)
+	{
+		// printf("9bel %d\n", g_status.g_status);
+		t_pipe->wait_id[t_pipe->id] = fork();
+		if (t_pipe->wait_id[t_pipe->id] == 0)
+		{
+			if (parse->data[i].cmd)
+				cmd = join_args(parse, i);
+			ft_pattern(parse, i);
+			// printf("b3d %d\n", g_status.g_status);
+			do_command(parse, i, cmd);
+		}
+	}
+	t_pipe->id = 0;
+	close(0);
 }
 
 void h_d(t_parse *parse)

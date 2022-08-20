@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 19:02:43 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/20 21:19:16 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,5 +196,15 @@ int		find_here_d(t_parse *parse, int i);
 void	wait_cmd(pipex *t_pipe, t_parse *parse);
 void	set_red(t_parse *parse, pipex *t_pipe, int i);
 int		not_builtins(t_parse *parse, int i);
+void 	input_file(t_parse *parse, pipex *t_pipe, int i, int c);
+void 	output_file(t_parse *parse, pipex *t_pipe, int i, int c);
+void 	append_file(t_parse *parse, pipex *t_pipe, int i, int c);
+void 	child_else(t_parse *parse, pipex *t_pipe, int i, char **comd);
+void 	ft_pattern(t_parse *parse, int i);
+void 	ft_parent(pipex *t_pipe, t_parse *parse, int i);
+void 	protection(char *comd);
+void check_child_built(t_parse *parse, char **comd);
+void first_last(t_parse *parse, pipex *t_pipe, int i);
+void ft_free2(char **cmd);
 
 #endif
