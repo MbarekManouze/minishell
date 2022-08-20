@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:54:57 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/16 18:57:38 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/20 14:55:29 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ void	variable_c(char *str, int *count, int *i, t_parse *p)
 	char	*s;
 
 	k = 0;
-	while ((str[(*i)] >= 'a' && str[(*i)] <= 'z')
-		|| (str[(*i)] >= 'A' && str[(*i)] <= 'Z')
-		|| (str[(*i)] >= '0' && str[(*i)] <= '9') || str[(*i)] == '_')
+	while (ft_isalnum(str[(*i)]))
 	{
 		k++;
 		(*i)++;
@@ -36,9 +34,7 @@ void	variable_c(char *str, int *count, int *i, t_parse *p)
 	s = malloc(k + 1);
 	(*i) = (*i) - k;
 	k = 0;
-	while ((str[(*i)] >= 'a' && str[(*i)] <= 'z')
-		|| (str[(*i)] >= 'A' && str[(*i)] <= 'Z')
-		|| (str[(*i)] >= '0' && str[(*i)] <= '9') || str[(*i)] == '_')
+	while (ft_isalnum(str[(*i)]))
 		s[k++] = str[(*i)++];
 	s[k] = '\0';
 	s = env_cher(s, p->env);
@@ -62,7 +58,7 @@ int	variable_count(char *str, t_parse *p)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && ft_isalnum(str[i + 1]))
 		{
 			i++;
 			count++;

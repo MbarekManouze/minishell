@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:03:12 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/18 14:09:38 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 13:33:35 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,11 @@ void	ft_pwd(t_parse *p)
 {
 	char	*s;
 	char	*str;
+
 	s = getcwd(NULL, 0);
 	if (!s)
 	{
-		str = env_cher("PWD", p->env);
+		str = env_cher(ft_strdup("PWD"), p->env);
 		if (!str)
 			printf("bash: PWD not set\n");
 		else

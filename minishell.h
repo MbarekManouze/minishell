@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/17 15:20:01 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/20 13:37:20 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,9 @@ void	ft_cd(char **tab, t_parse *parse);
 void	modify_oldpwd(char **env);
 int		cher_home(char *s, char **env);
 void	ft_exit(char **tab);
-int	ft_isalnum(int c);
+int		ft_isalnum(int c);
 void	excute_builtins(char **comd, t_parse *parse);
+char	*env_cher2(char *s1, char **env);
 
 /*--------------------------------------------------------------------*/
 
