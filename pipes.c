@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:01:44 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/18 18:37:36 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 18:59:31 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void start(t_parse *parse,int i, pipex *t_pipe, char **comd)
 {
     int k;
 
+    g_status.g_status = 0;
     pipe(t_pipe->fd);
     k = check_red(parse, t_pipe, i);
     t_pipe->wait_id[t_pipe->id] = fork();
@@ -102,7 +103,11 @@ void start(t_parse *parse,int i, pipex *t_pipe, char **comd)
     {
         if (k == 1)
         {
+            if (g_status.g_conti == 1)
+                exit(1);
             if (g_status.g_status == 1)
+				exit(1);
+            if (parse->data[i].sign == 1)
 				exit(1);
             t_pipe->out = 0;
             close(t_pipe->fd[0]);
@@ -111,6 +116,8 @@ void start(t_parse *parse,int i, pipex *t_pipe, char **comd)
         }
         else
         {
+            if (g_status.g_conti == 1)
+                exit(1);
             dup2(t_pipe->fd[1], 1);
             close(t_pipe->fd[0]);
             close(t_pipe->fd[1]);
@@ -138,9 +145,10 @@ int check_red(t_parse *parse, pipex *t_pipe, int i)
     {
         while (c < parse->data[i].num_red)
         {
-            if (parse->data[i].red[c].type == 1)
+            if (parse->data[i].red[c].type == 1 && g_status.g_status != 1 && parse->data[i].cmd && g_status.g_conti != 1)
             {
-                if (t_pipe->in_err != 9)
+                g_status.g_status = 0;
+                if (t_pipe->in_err != 9 && parse->data[i].cmd)
                 {
                     t_pipe->file_inpt = open(parse->data[i].red[c].file, O_RDONLY, 0644);
                     dup2(t_pipe->file_inpt, 0);
@@ -160,10 +168,11 @@ int check_red(t_parse *parse, pipex *t_pipe, int i)
                     t_pipe->in_err = 9;
                 }
             }
-            else if (parse->data[i].red[c].type == 2)
+            else if (parse->data[i].red[c].type == 2 && g_status.g_conti != 1)
             {
                 if (t_pipe->in_err != 9 && t_pipe->out_err == 0 && g_status.g_status != 1)
                 {
+                    g_status.g_status = 0;
                     t_pipe->file_outpt = open(parse->data[i].red[c].file, O_CREAT | O_RDWR | O_TRUNC, 0644);
                     if (access(parse->data[i].red[c].file, W_OK) == -1)
                     {
@@ -175,10 +184,11 @@ int check_red(t_parse *parse, pipex *t_pipe, int i)
                     t_pipe->out = 1;
                 }
             }
-            else if (parse->data[i].red[c].type == 4)
+            else if (parse->data[i].red[c].type == 4 && g_status.g_conti != 1)
             {
                 if (t_pipe->in_err != 9 && t_pipe->out_err == 0 && g_status.g_status != 1)
                 {
+                    g_status.g_status = 0;
                     t_pipe->file_appnd = open(parse->data[i].red[c].file, O_CREAT | O_APPEND | O_RDWR, 0644);
                     if (access(parse->data[i].red[c].file, W_OK) == -1)
                     {

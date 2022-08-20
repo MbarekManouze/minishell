@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 15:39:54 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 18:55:02 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ int check_for_builtins(t_parse *parse, pipex *t_pipe)
 void ft_begin(t_parse *parse, pipex *t_pipe)
 {
 	g_status.g_status = 0;
+	g_status.g_conti = 0;
 	h_d(parse);
 	commands(parse, t_pipe);
 }
@@ -232,12 +233,11 @@ void commands(t_parse *parse, pipex *t_pipe)
 		{
 			if (parse->data[i].cmd)
 				cmd = join_args(parse, i);
-			if (g_status.g_status == 13)
-			{
-				write(2, "permission denied\n", 19);
-				exit(13);
-			}
+			if (g_status.g_conti == 1)
+				exit (1);
 			if (g_status.g_status == 1)
+				exit(1);
+			if (parse->data[i].sign == 1)
 				exit(1);
 			do_command(parse, i, cmd);
 		}
@@ -251,14 +251,19 @@ void commands(t_parse *parse, pipex *t_pipe)
 			write(2, "Error waitpid\n", 15);
 			exit(1);
 		}
-		if(WIFEXITED(status))
-			g_status.g_status = WEXITSTATUS(status);
-		if (status == 2)
-			g_status.g_status = 130;
-		if (status == 3)
-			g_status.g_status = 131;
+		if (parse->data[t_pipe->id].cmd)
+		{
+			if(WIFEXITED(status))
+				g_status.g_status = WEXITSTATUS(status);
+			if (status == 2)
+				g_status.g_status = 130;
+			if (status == 3)
+				g_status.g_status = 131;
+		}
 		t_pipe->id++;
 	}
+	if (t_pipe->out_err == 1 || t_pipe->in_err == 9 )
+		g_status.g_status = 1;
 	if (t_pipe->cmd_number)
 		free(t_pipe->wait_id);
 	t_pipe->wait_id = 0;
@@ -277,6 +282,8 @@ void h_d(t_parse *parse)
 		c = 0;
 		if (parse->data[i].num_red >= 1)
 		{
+			if (g_status.g_conti == 1)
+				break ;
 			while (c < parse->data[i].num_red)
 			{
 				if (parse->data[i].red[c].type == HERDOC)
@@ -289,7 +296,12 @@ void h_d(t_parse *parse)
 					{
 						waitpid(id, &sts, 0);
 						if (sts == 2)
+						{
+							parse->data[i].sign = 1;
 							g_status.g_status = 1;
+							g_status.g_conti = 1;
+							break ;
+						}
 						else
 							g_status.g_status = 0;
 						close(parse->data[i].fd[1]);

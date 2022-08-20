@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 16:50:05 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 19:02:43 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_red
 typedef struct s_data
 {
 	int		fd[2];
+	int 	sign;
 	char	*cmd;
 	char	**args;
 	int		num_red;
@@ -83,6 +84,7 @@ typedef struct s_global
 {
 	int	g_herd;
 	int	g_status;
+	int g_conti;
 	int	g_id;
 }		t_global;
 
