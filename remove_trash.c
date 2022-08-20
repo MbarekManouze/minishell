@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:28:52 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/07/22 12:28:59 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 16:04:13 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ int	remove_trash(t_parse *parse, int j)
 		{
 			parse->data[i].cmd = remove_qoutes(parse->data[i].cmd);
 			if (!parse->data[i].cmd)
-				continue;
+				continue ;
 			parse->data[i].args = remove_qoute(parse->data[i].args);
 			if (!parse->data[i].args)
-				continue;
+				continue ;
 		}
 		i++;
 	}

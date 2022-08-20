@@ -1,95 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 19:14:47 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/18 15:49:27 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 15:49:55 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	sort_env(char **env)
-{
-	int		i;
-	int		j;
-	int		h;
-	char	*s;
-
-	h = 0;
-	while (env[h])
-		h++;
-	i = 0;
-	while (i < h)
-	{
-		j = i + 1;
-		while (j < h)
-		{
-			if (ft_strcmp(env[i], env[j]) > 0)
-			{
-				s = env[i];
-				env[i] = env[j];
-				env[j] = s;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-void	add_print_declare(char **env)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	while (env[i])
-	{
-		if (!strchr(env[i], '='))
-			printf("declare -x %s\n", env[i]);
-		else
-		{
-			printf("declare -x ");
-			j = 0;
-			while (env[i][j])
-			{
-				if (env[i][j] == '=')
-				{
-					printf("%c", env[i][j]);
-					break ;
-				}
-				printf("%c", env[i][j]);
-				j++;
-			}
-			printf("%c%s%c\n", '"', env[i] + j + 1, '"');
-		}
-		i++;
-	}
-}
-
-int	check_valid(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!((str[i] >= 'a' && str[i] <= 'z')
-			|| (str[i] >= 'A' && str[i] <= 'Z')
-			|| str[i] == '_'))
-		return (0);
-	while (str[i] != '=' && str[i])
-	{
-		if (!((str[i] >= 'a' && str[i] <= 'z')
-				|| (str[i] >= 'A' && str[i] <= 'Z')
-				|| (str[i] >= '0' && str[i] <= '9')
-				|| str[i] == '_' || str[i] == '='))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int	get_index(char *str, char **env)
 {
@@ -159,18 +80,11 @@ void	modify_variable(char *str, char **env, int index)
 	}
 }
 
-void	export(char **tab, t_parse *parse)
+void	ft_export2(char **tab, t_parse *parse)
 {
 	int	i;
 	int	j;
 
-	g_status.g_status = 0;
-	sort_env(parse->env);
-	if (!tab[0])
-	{
-		add_print_declare(parse->env);
-		return ;
-	}
 	i = 0;
 	while (tab[i])
 	{
@@ -189,4 +103,16 @@ void	export(char **tab, t_parse *parse)
 		}
 		i++;
 	}
+}
+
+void	ft_export(char **tab, t_parse *parse)
+{
+	g_status.g_status = 0;
+	sort_env(parse->env);
+	if (!tab[0])
+	{
+		add_print_declare(parse->env);
+		return ;
+	}
+	ft_export2(tab, parse);
 }

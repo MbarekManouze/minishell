@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:32:31 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 15:06:06 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 15:59:23 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,13 +207,11 @@ char	*dollar_hundler(char *str, t_parse *parse)
 	parse->j = variable_count(str, parse);
 	if (!parse->j)
 		return (NULL);
-	// printf("%d\n", parse->j);
 	s = malloc(parse->j + 1);
 	parse->i = 0;
 	parse->j = 0;
 	dollar_hundle2(s, str, parse);
 	s[parse->j] = '\0';
-	// printf("[%s]\n", s);
 	s = expand_status(s);
 	return (s);
 }

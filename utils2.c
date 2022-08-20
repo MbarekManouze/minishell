@@ -3,18 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:54:54 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/17 15:55:48 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/20 16:43:37 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	errors_manag(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		if (!check_errors(tab[i]))
+		{
+			ft_free_tab(tab);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
 char	**error_management(char *str, t_parse *parse)
 {
-	int		i;
 	char	*s;
 	char	**tab;
 
@@ -33,16 +49,8 @@ char	**error_management(char *str, t_parse *parse)
 		ft_free_tab(tab);
 		return (0);
 	}
-	i = 0;
-	while (tab[i])
-	{
-		if (!check_errors(tab[i]))
-		{
-			ft_free_tab(tab);
-			return (0);
-		}
-		i++;
-	}
+	if (!errors_manag(tab))
+		return (0);
 	return (tab);
 }
 

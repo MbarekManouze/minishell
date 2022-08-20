@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:03:12 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 13:33:35 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 16:19:59 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,11 @@ int	check_valid2(char *str)
 	return (1);
 }
 
-char	**ft_unset2(char *str, char **env)
+void	ft_unset3(char **t, char **env, int j)
 {
-	int		i;
-	int		j;
-	int		k;
-	char	**t;
+	int	i;
+	int	k;
 
-	j = cher_home(str, env);
-	if (j == -1)
-		return (env);
-	i = 0;
-	while (env[i])
-		i++;
-	t = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	k = 0;
 	while (env[i])
@@ -60,6 +51,24 @@ char	**ft_unset2(char *str, char **env)
 	}
 	t[k] = 0;
 	free(env);
+}
+
+char	**ft_unset2(char *str, char **env)
+{
+	int		i;
+	int		j;
+	char	**t;
+
+	j = cher_home(str, env);
+	if (j == -1)
+		return (env);
+	i = 0;
+	while (env[i])
+		i++;
+	t = malloc(sizeof(char *) * (i + 1));
+	if (!t)
+		return (NULL);
+	ft_unset3(t, env, j);
 	return (t);
 }
 
@@ -82,20 +91,6 @@ void	ft_unset(char **tab, t_parse *parse)
 		}
 		i++;
 	}
-}
-
-void	print_env(t_parse *parse)
-{
-	int	i;
-
-	i = 0;
-	while (parse->env[i])
-	{
-		if (strchr(parse->env[i], '='))
-			printf("%s\n", parse->env[i]);
-		i++;
-	}
-	g_status.g_status = 0;
 }
 
 void	ft_pwd(t_parse *p)

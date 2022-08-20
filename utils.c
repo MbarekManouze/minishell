@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:36:35 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/18 20:55:48 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 16:38:50 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,16 @@ int	check_qoutes4(char *str, int i, t_parse *parse, char c)
 	return (i);
 }
 
+int	ft_check_qoutes3(t_parse *parse)
+{
+	if (parse->dqoute % 2 != 0 || parse->sqoute % 2 != 0)
+	{
+		printf("Unclosed Qoute\n");
+		return (0);
+	}
+	return (1);
+}
+
 int	check_qoutes2(char *str, t_parse *parse)
 {
 	int	i;
@@ -67,11 +77,8 @@ int	check_qoutes2(char *str, t_parse *parse)
 		}
 		i++;
 	}
-	if (parse->dqoute % 2 != 0 || parse->sqoute % 2 != 0)
-	{
-		printf("Unclosed Qoute\n");
+	if (!ft_check_qoutes3(parse))
 		return (0);
-	}
 	return (1);
 }
 
@@ -100,6 +107,25 @@ void	ft_free_tab(char **tab)
 	free(tab);
 }
 
+void	skiping_qoute(char **str, int i, int *j, char c)
+{
+	(*j)++;
+	while (str[i][(*j)] != c && str[i][(*j)])
+		(*j)++;
+}
+
+void	counting_red(char **str, int i, int *j, int *count)
+{
+	if ((str[i][(*j)] == '>' && str[i][(*j) + 1] == '>')
+		|| (str[i][(*j)] == '<' && str[i][(*j) + 1] == '<'))
+	{
+		(*j)++;
+		(*count)++;
+	}
+	else if (str[i][(*j)] == '>' || str[i][(*j)] == '<')
+		(*count)++;
+}
+
 int	count_red(char **str)
 {
 	int	i;
@@ -114,25 +140,10 @@ int	count_red(char **str)
 		while (str[i][j])
 		{
 			if (str[i][j] == '"')
-			{
-				j++;
-				while (str[i][j] != '"' && str[i][j])
-					j++;
-			}
+				skiping_qoute(str, i, &j, '"');
 			else if (str[i][j] == 39)
-			{
-				j++;
-				while (str[i][j] != 39 && str[i][j])
-					j++;
-			}
-			else if ((str[i][j] == '>' && str[i][j + 1] == '>')
-				|| (str[i][j] == '<' && str[i][j + 1] == '<'))
-			{
-				j++;
-				count++;
-			}
-			else if (str[i][j] == '>' || str[i][j] == '<')
-				count++;
+				skiping_qoute(str, i, &j, 39);
+			counting_red(str, i, &j, &count);
 			j++;
 		}
 		i++;

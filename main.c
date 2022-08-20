@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/18 20:40:53 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 15:39:54 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	excute_builtins(char **comd, t_parse *parse)
 	if (!strcmp(comd[0], "echo"))
 		ft_echo(comd+1);
 	else if (!strcmp(comd[0], "export"))
-		export(comd+1, parse);
+		ft_export(comd+1, parse);
 	else if (!strcmp(comd[0], "env"))
 		print_env(parse);
 	else if (!strcmp(comd[0], "unset"))

@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 10:55:49 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/07/23 12:42:59 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 15:37:18 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,3 @@ char	**expanding(char **tab)
 	free(tab);
 	return (t);
 }
-

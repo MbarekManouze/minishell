@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:26:20 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/18 22:48:38 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 16:03:05 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,23 @@ void	clean_red(t_parse *p, int i)
 	}
 }
 
+void	nulling(t_parse *p, char **t, int *i)
+{
+	p->data[(*i)].cmd = NULL;
+	p->data[(*i)].args = malloc(sizeof(char *));
+	p->data[(*i)].args[0] = NULL;
+	(*i)++;
+	free(t);
+}
+
+int	parsing_2(char **t, t_parse *p, int i)
+{
+	parsing2(t, p, i);
+	i++;
+	free(t);
+	return (i);
+}
+
 int	parsing(char **tab, t_parse *p)
 {
 	int		i;
@@ -75,8 +92,6 @@ int	parsing(char **tab, t_parse *p)
 	char	**t;
 
 	i = 0;
-	p->i = 0;
-	p->j = 0;
 	while (tab[i])
 	{
 		str = str_to_split(tab[i], ' ');
@@ -90,16 +105,10 @@ int	parsing(char **tab, t_parse *p)
 		clean_red(p, i);
 		if (!t[0])
 		{
-			p->data[i].cmd = NULL;
-			p->data[i].args = malloc(sizeof(char *));
-			p->data[i].args[0] = NULL;
-			i++;
-			free(t);
-			continue;
+			nulling(p, t, &i);
+			continue ;
 		}
-		parsing2(t, p, i);
-		i++;
-		free(t);
+		i = parsing_2(t, p, i);
 	}
 	return (1);
 }

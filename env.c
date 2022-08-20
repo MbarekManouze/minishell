@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 16:11:28 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/17 18:10:05 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/20 16:19:54 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,18 @@ char	**ft_env(char **env)
 	}
 	tab[i] = 0;
 	return (tab);
+}
+
+void	print_env(t_parse *parse)
+{
+	int	i;
+
+	i = 0;
+	while (parse->env[i])
+	{
+		if (strchr(parse->env[i], '='))
+			printf("%s\n", parse->env[i]);
+		i++;
+	}
+	g_status.g_status = 0;
 }
