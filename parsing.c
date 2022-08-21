@@ -6,52 +6,11 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:26:20 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 16:03:05 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/21 18:43:24 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**redirections(char **tab, t_data *data)
-{
-	int		i;
-	char	**t;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	t = malloc(sizeof(char *) * (i + 1));
-	if (!t)
-		return (0);
-	data->num_red = count_red(tab);
-	data->red = malloc(sizeof(t_red) * data->num_red);
-	if (!data->red)
-		return (0);
-	return (redirections2(tab, t, data));
-}
-
-int	parsing2(char **t, t_parse *parse, int i)
-{
-	int	j;
-	int	k;
-
-	k = 0;
-	while (t[k])
-		k++;
-	parse->data[i].cmd = ft_strdup(t[0]);
-	free(t[0]);
-	parse->data[i].args = malloc(sizeof(char *) * k);
-	k = 0;
-	j = 1;
-	while (t[j])
-	{
-		parse->data[i].args[k++] = ft_strdup(t[j]);
-		free(t[j]);
-		j++;
-	}
-	parse->data[i].args[k] = 0;
-	return (1);
-}
 
 void	clean_red(t_parse *p, int i)
 {

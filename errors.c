@@ -6,146 +6,88 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:30:31 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/19 15:42:12 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/21 18:49:50 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*str_to_split(char *str, char c)
+int	check_error2(char *str, int *i)
 {
-	int		i;
-	char	*s;
-
-	s = ft_strdup(str);
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			s[i] = SPLIT_TOKEN;
-		else if (s[i] == '"')
-		{
-			i++;
-			while (s[i] != '"' && s[i])
-				i++;
-		}
-		else if (s[i] == 39)
-		{
-			i++;
-			while (s[i] != 39 && s[i])
-				i++;
-		}
-		i++;
-	}
-	return (s);
-}
-
-char	*str_to_split2(char *str, char c)
-{
-	int		i;
-	char	*s;
-
-	s = ft_strdup(str);
-	free(str);
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			s[i] = SPLIT_TOKEN;
-		else if (s[i] == '"')
-		{
-			i++;
-			if (s[i] == '\0')
-				break ;
-			while (s[i] != '"' && s[i])
-				i++;
-			if (s[i] == '\0')
-				break ;
-		}
-		else if (s[i] == 39)
-		{
-			i++;
-			if (s[i] == '\0')
-				break ;
-			while (s[i] != 39 && s[i])
-				i++;
-			if (s[i] == '\0')
-				break ;
-		}
-		i++;
-	}
-	return (s);
-}
-
-
-int	check_pipes(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[0] == '|')
+	while (str[(*i)] == ' ')
+		(*i)++;
+	if (str[(*i)] == '|' || str[(*i)] == '<'
+		|| str[(*i)] == '>' || str[(*i)] == '\0')
 	{
 		printf("Syntax error\n");
-		return (0);
+		g_status.g_status = 258;
+		return (-1);
 	}
-	if (str[0] == ' ')
+	return ((*i));
+}
+
+int	check_errors3(char *str, int *i)
+{
+	if (str[(*i)] == '<')
 	{
-		while (str[i] == ' ')
-			i++;
-		if (str[i] == '|')
-		{
-			printf("Syntax error\n");
+		(*i)++;
+		(*i) = check_error2(str, i);
+		if ((*i) == -1)
 			return (0);
-		}
 	}
-	i = 0;
-	while (str[i])
+	else if (str[(*i)] == '>')
 	{
-		if (str[i] == '|')
-		{
-			i++;
-			while (str[i] == ' ')
-				i++;
-			if (str[i] == '|' || str[i] == '\0')
-			{
-				printf("Syntax error\n");
-				return (0);
-			}
-		}
-		i++;
+		(*i)++;
+		(*i) = check_error2(str, i);
+		if ((*i) == -1)
+			return (0);
 	}
 	return (1);
 }
 
-int	check_error2(char *str, int i)
+int	skipping_qoutes(char *str, int *i)
 {
-	while (str[i] == ' ')
-		i++;
-	if (str[i] == '|' || str[i] == '<'
-		|| str[i] == '>' || str[i] == '\0')
+	if (str[(*i)] == '"')
 	{
-		printf("Syntax error\n");
-		return (-1);
+		(*i)++;
+		if (str[(*i)] == '\0')
+			return (0);
+		while (str[(*i)] != '"' && str[(*i)])
+			(*i)++;
+		if (str[(*i)] == '\0')
+			return (0);
 	}
-	return (i);
+	else if (str[(*i)] == 39)
+	{
+		(*i)++;
+		if (str[(*i)] == '\0')
+			return (0);
+		while (str[(*i)] != 39 && str[(*i)])
+			(*i)++;
+		if (str[(*i)] == '\0')
+			return (0);
+	}
+	return (1);
 }
 
-int	check_errors3(char *str, int i)
+int	checking_red(char *str, int *i)
 {
-	if (str[i] == '<')
+	if (str[(*i)] == '<' && str[(*i) + 1] == '<')
 	{
-		i++;
-		i = check_error2(str, i);
-		if (i == -1)
+		(*i) = (*i) + 2;
+		(*i) = check_error2(str, i);
+		if ((*i) == -1)
 			return (0);
 	}
-	else if (str[i] == '>')
+	else if (str[(*i)] == '>' && str[(*i) + 1] == '>')
 	{
-		i++;
-		i = check_error2(str, i);
-		if (i == -1)
+		(*i) = (*i) + 2;
+		(*i) = check_error2(str, i);
+		if ((*i) == -1)
 			return (0);
 	}
+	else if (!check_errors3(str, i))
+		return (0);
 	return (1);
 }
 
@@ -156,41 +98,9 @@ int	check_errors(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '"')
-		{
-			i++;
-			if (str[i] == '\0')
-				break ;
-			while (str[i] != '"' && str[i])
-				i++;
-			if (str[i] == '\0')
-				break ;
-		}
-		else if (str[i] == 39)
-		{
-			i++;
-			if (str[i] == '\0')
-				break ;
-			while (str[i] != 39 && str[i])
-				i++;
-			if (str[i] == '\0')
-				break ;
-		}
-		if (str[i] == '<' && str[i + 1] == '<')
-		{
-			i = i + 2;
-			i = check_error2(str, i);
-			if (i == -1)
-				return (0);
-		}
-		else if (str[i] == '>' && str[i + 1] == '>')
-		{
-			i = i + 2;
-			i = check_error2(str, i);
-			if (i == -1)
-				return (0);
-		}
-		else if (!check_errors3(str, i))
+		if (!skipping_qoutes(str, &i))
+			break ;
+		if (!checking_red(str, &i))
 			return (0);
 		i++;
 	}

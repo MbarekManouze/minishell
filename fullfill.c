@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   fullfill.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 13:07:43 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/21 13:09:13 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/21 19:00:12 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int count_args(t_parse *parse, int i)
+int	count_args(t_parse *parse, int i)
 {
-	int j;
-	int c;
+	int	j;
+	int	c;
 
 	j = 0;
 	c = 0;
@@ -31,12 +31,12 @@ int count_args(t_parse *parse, int i)
 	return (c);
 }
 
-char **join_args(t_parse *parse, int i)
+char	**join_args(t_parse *parse, int i)
 {
-	char **split;
-	int j;
-	int c;
-	int len;
+	char	**split;
+	int		j;
+	int		c;
+	int		len;
 
 	j = 0;
 	c = 0;

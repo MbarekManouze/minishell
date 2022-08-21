@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/21 13:09:06 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/21 19:21:11 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_red
 typedef struct s_data
 {
 	int		fd[2];
-	int 	sign;
+	int		sign;
 	char	*cmd;
 	char	**args;
 	int		num_red;
@@ -84,8 +84,10 @@ typedef struct s_global
 {
 	int	g_herd;
 	int	g_status;
-	int g_conti;
+	int	g_conti;
 	int	g_id;
+	int	g_i;
+	int	g_j;
 }		t_global;
 
 t_global	g_status;
@@ -105,6 +107,7 @@ void	expaaaand(char *s, char *str, int *i, int *j);
 void	expand_noqoute(char *s, char *str, int *i, int *j);
 void	expand_sqoute(char *s, char *str, int *i, int *j);
 void	expand_dqoute(char *s, char *str, int *i, int *j);
+char	*expand_status(char *str);
 void	ft_error(char *str);
 char	**ft_env(char **env);
 int		dollar(t_parse *parse, int len);
@@ -119,8 +122,8 @@ void	variable_c(char *str, int *count, int *i, t_parse *p);
 char	*env_cher(char *s1, char **env);
 char	*remove_qoutes(char *str);
 int		check_errors(char *str);
-int		check_errors3(char *str, int i);
-int		check_error2(char *str, int i);
+int		check_errors3(char *str, int *i);
+int		check_error2(char *str, int *i);
 int		check_pipes(char *str);
 char	*str_to_split(char *str, char c);
 char	*str_to_split2(char *str, char c);
@@ -166,6 +169,8 @@ void	ft_exit(char **tab);
 int		ft_isalnum(int c);
 void	excute_builtins(char **comd, t_parse *parse);
 char	*env_cher2(char *s1, char **env);
+int		count_status(char *str);
+void	count_status2(char *str, int *i, int *count);
 
 /*--------------------------------------------------------------------*/
 
@@ -178,7 +183,7 @@ char	*get_next_line(int fd);
 char	*ft_substr(char *s, int start, int len);
 char	*find_nl(char *buffer);
 char	**join_args(t_parse *parse, int i);
-int 	count_args(t_parse *parse, int i);
+int		count_args(t_parse *parse, int i);
 int		here_doc(t_parse *parse, char *limiter, int i);
 // char *command_path(char *cmd, char **paths);
 // char **ft_paths(char **env);
@@ -197,20 +202,20 @@ int		find_here_d(t_parse *parse, int i);
 void	wait_cmd(pipex *t_pipe, t_parse *parse);
 void	set_red(t_parse *parse, pipex *t_pipe, int i);
 int		not_builtins(t_parse *parse, int i);
-void 	input_file(t_parse *parse, pipex *t_pipe, int i, int c);
-void 	output_file(t_parse *parse, pipex *t_pipe, int i, int c);
-void 	append_file(t_parse *parse, pipex *t_pipe, int i, int c);
-void 	child_else(t_parse *parse, pipex *t_pipe, int i, char **comd);
-void 	ft_pattern(t_parse *parse, int i);
-void 	ft_parent(pipex *t_pipe, t_parse *parse, int i);
-void 	protection(char *comd);
-void 	check_child_built(t_parse *parse, char **comd);
-void 	first_last(t_parse *parse, pipex *t_pipe, int i);
-void 	ft_free2(char **cmd);
-void 	input_permission(t_parse *parse, pipex *t_pipe, int i, int c);
-void 	initializing(pipex *t_pipe, t_parse *parse, char **env);
-void 	ft_default(pipex *t_pipe);
-void 	childs_room(pipex *t_pipe);
-int 	hd_duty(t_parse *parse, int i, int c);
+void	input_file(t_parse *parse, pipex *t_pipe, int i, int c);
+void	output_file(t_parse *parse, pipex *t_pipe, int i, int c);
+void	append_file(t_parse *parse, pipex *t_pipe, int i, int c);
+void	child_else(t_parse *parse, pipex *t_pipe, int i, char **comd);
+void	ft_pattern(t_parse *parse, int i);
+void	ft_parent(pipex *t_pipe, t_parse *parse, int i);
+void	protection(char *comd);
+void	check_child_built(t_parse *parse, char **comd);
+void	first_last(t_parse *parse, pipex *t_pipe, int i);
+void	ft_free2(char **cmd);
+void	input_permission(t_parse *parse, pipex *t_pipe, int i, int c);
+void	initializing(pipex *t_pipe, t_parse *parse, char **env);
+void	ft_default(pipex *t_pipe);
+void	childs_room(pipex *t_pipe);
+int		hd_duty(t_parse *parse, int i, int c);
 
 #endif

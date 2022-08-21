@@ -6,11 +6,27 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:34:06 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/17 19:01:32 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/21 15:40:08 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*env_cher_fill(char *s, char **env, int i, char *s1)
+{
+	s = ft_strdup(env[i] + ft_strlen(s1) + 1);
+	if (env[i][ft_strlen(s1)] == '=')
+	{
+		free(s1);
+		return (s);
+	}
+	else
+	{
+		free(s1);
+		free(s);
+		return (0);
+	}
+}
 
 char	*env_cher(char *s1, char **env)
 {
@@ -19,24 +35,12 @@ char	*env_cher(char *s1, char **env)
 	char	*s;
 
 	i = 0;
+	s = NULL;
 	while (env[i])
 	{
 		j = strncmp(s1, env[i], (ft_strlen(s1)));
 		if (j == 0)
-		{
-			s = ft_strdup(env[i] + ft_strlen(s1) + 1);
-			if (env[i][ft_strlen(s1)] == '=')
-			{
-				free(s1);
-				return (s);
-			}
-			else
-			{
-				free(s1);
-				free(s);
-				return (0);
-			}
-		}
+			return (env_cher_fill(s, env, i, s1));
 		i++;
 	}
 	free(s1);

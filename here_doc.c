@@ -3,66 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 11:04:17 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/21 13:00:26 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/21 19:02:17 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int here_doc(t_parse *parse, char *limiter, int i)
+int	here_doc(t_parse *parse, char *limiter, int i)
 {
-    char *read;
+	char	*read;
 
-    g_status.g_herd = 1;
-    signal(SIGINT, SIG_DFL);
-    while (1)
-    {
-        read = readline(">");
-        if (!read)
-        {
-            free(read);
-            exit(0);
-        }
-        else if (!ft_strcmp(limiter, read))
-        {
-            free(read);
-            free(limiter);
-            exit(1);
-        }
-        read = dollar_hundler(read, parse);
-        write(parse->data[i].fd[1], read, ft_strlen(read));
-        write(parse->data[i].fd[1], "\n", 1);
-        free(read);
-    }
+	g_status.g_herd = 1;
+	signal(SIGINT, SIG_DFL);
+	while (1)
+	{
+		read = readline(">");
+		if (!read)
+		{
+			free(read);
+			exit(0);
+		}
+		else if (!ft_strcmp(limiter, read))
+		{
+			free(read);
+			free(limiter);
+			exit(1);
+		}
+		read = dollar_hundler(read, parse);
+		write(parse->data[i].fd[1], read, ft_strlen(read));
+		write(parse->data[i].fd[1], "\n", 1);
+		free(read);
+	}
 }
 
-int find_here_d(t_parse *parse, int i)
+int	find_here_d(t_parse *parse, int i)
 {
-    int j;
+	int	j;
 
-    j = 0;
-    if (parse->data[i].num_red >= 1 )
-    {
-        while (j < parse->data[i].num_red)
-        {
-            if (parse->data[i].red[j].type == HERDOC)
-            {
-                if (parse->data[i].cmd)
-                    return (1);
-            }
-            j++;
-        }
-    }
-    return (0);
+	j = 0;
+	if (parse->data[i].num_red >= 1)
+	{
+		while (j < parse->data[i].num_red)
+		{
+			if (parse->data[i].red[j].type == HERDOC)
+			{
+				if (parse->data[i].cmd)
+					return (1);
+			}
+			j++;
+		}
+	}
+	return (0);
 }
 
-void h_d(t_parse *parse)
+void	h_d(t_parse *parse)
 {
-	int i;
-	int c;
+	int	i;
+	int	c;
 
 	i = 0;
 	while (i < parse->num_data)
@@ -77,7 +77,7 @@ void h_d(t_parse *parse)
 				if (parse->data[i].red[c].type == HERDOC)
 				{
 					if (hd_duty(parse, i, c) == 2)
-						break;
+						break ;
 				}
 				c++;
 			}
@@ -86,10 +86,10 @@ void h_d(t_parse *parse)
 	}
 }
 
-int hd_duty(t_parse *parse, int i, int c)
+int	hd_duty(t_parse *parse, int i, int c)
 {
-	int sts;
-	int id;
+	int	sts;
+	int	id;
 
 	sts = 0;
 	pipe(parse->data[i].fd);

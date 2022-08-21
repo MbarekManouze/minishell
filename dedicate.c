@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   dedicate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 13:16:50 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/21 13:17:28 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/21 18:55:56 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void initializing(pipex *t_pipe, t_parse *parse, char **env)
+void	initializing(pipex *t_pipe, t_parse *parse, char **env)
 {
 	t_pipe->id = 0;
 	t_pipe->out = 0;
@@ -24,15 +24,15 @@ void initializing(pipex *t_pipe, t_parse *parse, char **env)
 	parse->env = ft_env(env);
 }
 
-void ft_default(pipex *t_pipe)
+void	ft_default(pipex *t_pipe)
 {
 	dup2(t_pipe->save[0], 0);
 	dup2(t_pipe->save[1], 1);
 }
 
-void ft_free2(char **cmd)
+void	ft_free2(char **cmd)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (cmd[j])
