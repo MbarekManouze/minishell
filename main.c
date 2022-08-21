@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 21:49:35 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/21 13:19:08 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,6 @@ void	excute_builtins(char **comd, t_parse *parse)
 		ft_cd(comd+1, parse);
 	else if (!strcmp(comd[0], "exit"))
 		ft_exit(comd+1);
-}
-
-void	sig_int(int sign)
-{
-	if (sign == SIGINT && !g_status.g_herd)
-	{
-		g_status.g_status = 1;
-		printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
 }
 
 void	ft_free(t_parse *parse)
@@ -118,256 +106,31 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	parse = malloc(sizeof(t_parse));
 	t_pipe = malloc(sizeof(pipex));
-	t_pipe->save[0] = dup(0);
-	t_pipe->save[1] = dup(1);
-	t_pipe->out = 0;
-	t_pipe->cmd_number = 0;
-	t_pipe->in_err = 0;
-	parse->env = ft_env(env);
-	g_status.g_status = 0;
+	initializing(t_pipe, parse, env);
 	while (1)
 	{
-		t_pipe->id = 0;
 		signal(SIGINT, sig_int);
 		signal(SIGQUIT, SIG_IGN);
 		str = readline("bash-0.2$ ");
 		if (!str)
 		{
 			printf("exit\n");
-			exit (g_status.g_status);
+			exit(g_status.g_status);
 		}
 		if (check(str) || check_space(str))
 			continue;
 		add_history(str);
 		if (!parser(str, parse))
 			continue;
-		//system("leaks minishell");
 		wait_cmd(t_pipe, parse);
 		if (check_for_builtins(parse, t_pipe))
 		{
-			dup2(t_pipe->save[0], 0);
-			dup2(t_pipe->save[1], 1);
+			ft_default(t_pipe);
 			ft_free(parse);
 			continue;
 		}
 		ft_begin(parse, t_pipe);
 		ft_free(parse);
-		dup2(t_pipe->save[0], 0);
-		dup2(t_pipe->save[1], 1);
+		ft_default(t_pipe);
 	}
-}
-
-int check_for_builtins(t_parse *parse, pipex *t_pipe)
-{
-	char **cmd;
-	int j;
-	int k;
-
-	j = 0;
-	if (parse->num_data == 1)
-	{
-		if (!ft_strcmp(parse->data[0].cmd, "pwd") || !ft_strcmp(parse->data[0].cmd, "export") || !ft_strcmp(parse->data[0].cmd, "env")
-        	|| !ft_strcmp(parse->data[0].cmd, "unset") || !ft_strcmp(parse->data[0].cmd, "cd") || !ft_strcmp(parse->data[0].cmd, "exit")
-			|| !ft_strcmp(parse->data[0].cmd, "echo"))
-    	{
-			h_d(parse);
-			k = check_red(parse, t_pipe,0);
-			if (g_status.g_status == 1 && k == 1)
-				return (1);
-			cmd = join_args(parse, 0);
-			excute_builtins(cmd, parse);
-			ft_free2(cmd);
-			return (1);
-    	}
-	}
-	return (0);
-}
-
-void ft_free2(char **cmd)
-{
-	int j;
-
-	j = 0;
-	while (cmd[j])
-	{
-		free(cmd[j]);
-		j++;
-	}
-	free(cmd);
-}
-
-void ft_begin(t_parse *parse, pipex *t_pipe)
-{
-	g_status.g_status = 0;
-	g_status.g_conti = 0;
-	h_d(parse);
-	commands(parse, t_pipe);
-}
-
-void commands(t_parse *parse, pipex *t_pipe)
-{
-	char **cmd;
-	int i;
-	int j;
-	int status;
-
-	i = 0;
-	j = 0;
-	while (i < parse->num_data - 1)
-	{	
-		// printf("ghi %d\n", g_status.g_status);
-		if (parse->data[i].cmd == NULL)
-		{
-			j = check_red(parse, t_pipe, i);
-			i++;
-			continue;
-		}
-		cmd = join_args(parse, i);
-		start(parse, i, t_pipe, cmd);
-		ft_free2(cmd);
-		i++;
-	}
-	first_last(parse, t_pipe, i);
-	while (t_pipe->id < t_pipe->cmd_number)
-	{   
-		if (waitpid(t_pipe->wait_id[t_pipe->id], &status, 0) == -1)
-		{
-			write(2, "Error waitpid\n", 15);
-			exit(1);
-		}
-		if (parse->data[t_pipe->id].cmd)
-		{
-			if(WIFEXITED(status))
-				g_status.g_status = WEXITSTATUS(status);
-			if (status == 2)
-				g_status.g_status = 130;
-			if (status == 3)
-				g_status.g_status = 131;
-		}
-		t_pipe->id++;
-	}
-	if (t_pipe->out_err == 1 || t_pipe->in_err == 9)
-		g_status.g_status = 1;
-	if (t_pipe->cmd_number)
-		free(t_pipe->wait_id);
-	t_pipe->wait_id = 0;
-}
-
-void first_last(t_parse *parse, pipex *t_pipe, int i)
-{
-	int k;
-	char **cmd;
-
-	cmd = NULL;
-	k = check_red(parse, t_pipe,i);
-	if (find_here_d(parse, i) || parse->data[i].cmd)
-	{
-		// printf("9bel %d\n", g_status.g_status);
-		t_pipe->wait_id[t_pipe->id] = fork();
-		if (t_pipe->wait_id[t_pipe->id] == 0)
-		{
-			if (parse->data[i].cmd)
-				cmd = join_args(parse, i);
-			ft_pattern(parse, i);
-			// printf("b3d %d\n", g_status.g_status);
-			do_command(parse, i, cmd);
-		}
-	}
-	t_pipe->id = 0;
-	close(0);
-}
-
-void h_d(t_parse *parse)
-{
-	int i;
-	int c;
-	int id;
-	int sts;
-
-	i = 0;
-	while (i < parse->num_data)
-	{
-		c = 0;
-		if (parse->data[i].num_red >= 1)
-		{
-			if (g_status.g_conti == 1)
-				break ;
-			while (c < parse->data[i].num_red)
-			{
-				if (parse->data[i].red[c].type == HERDOC)
-				{
-					pipe(parse->data[i].fd);
-					id = fork();
-					if (id == 0)
-						here_doc(parse, ft_strdup(parse->data[i].red[c].file), i);
-					else
-					{
-						waitpid(id, &sts, 0);
-						if (sts == 2)
-						{
-							parse->data[i].sign = 1;
-							g_status.g_status = 1;
-							g_status.g_conti = 1;
-							break ;
-						}
-						else
-							g_status.g_status = 0;
-						close(parse->data[i].fd[1]);
-					}
-				}
-				c++;
-			}
-		}
-		i++;
-	}
-}
-
-int count_args(t_parse *parse, int i)
-{
-	int j;
-	int c;
-
-	j = 0;
-	c = 0;
-	if (parse->data[i].cmd)
-	{
-		c++;
-		while (parse->data[i].args[j])
-		{
-			j++;
-			c++;
-		}
-	}
-	return (c);
-}
-
-char **join_args(t_parse *parse, int i)
-{
-	char **split;
-	int j;
-	int c;
-	int len;
-
-	j = 0;
-	c = 0;
-	len = count_args(parse, i);
-	if (!len)
-		return (NULL);
-	split = malloc(sizeof(char *) * (len + 1));
-	if (parse->data[i].cmd)
-	{
-		split[j] = ft_strdup(parse->data[i].cmd);
-		j++;
-		if (parse->data[i].args[c])
-		{
-			while (parse->data[i].args[c])
-			{
-				split[j] = ft_strdup(parse->data[i].args[c]);
-				c++;
-				j++;
-			}
-		}
-		split[j] = 0;
-	}
-	return (split);
 }

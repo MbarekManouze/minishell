@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 11:04:17 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/17 15:57:58 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/21 13:00:26 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,57 @@ int find_here_d(t_parse *parse, int i)
         }
     }
     return (0);
+}
+
+void h_d(t_parse *parse)
+{
+	int i;
+	int c;
+
+	i = 0;
+	while (i < parse->num_data)
+	{
+		c = 0;
+		if (parse->data[i].num_red >= 1)
+		{
+			if (g_status.g_conti == 1)
+				break ;
+			while (c < parse->data[i].num_red)
+			{
+				if (parse->data[i].red[c].type == HERDOC)
+				{
+					if (hd_duty(parse, i, c) == 2)
+						break;
+				}
+				c++;
+			}
+		}
+		i++;
+	}
+}
+
+int hd_duty(t_parse *parse, int i, int c)
+{
+	int sts;
+	int id;
+
+	sts = 0;
+	pipe(parse->data[i].fd);
+	id = fork();
+	if (id == 0)
+		here_doc(parse, ft_strdup(parse->data[i].red[c].file), i);
+	else
+	{
+		waitpid(id, &sts, 0);
+		if (sts == 2)
+		{
+			parse->data[i].sign = 1;
+			g_status.g_status = 1;
+			g_status.g_conti = 1;
+		}
+		else
+			g_status.g_status = 0;
+		close(parse->data[i].fd[1]);
+	}
+	return (sts);
 }

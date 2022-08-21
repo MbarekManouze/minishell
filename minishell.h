@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 21:19:16 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/21 13:09:06 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ char	*get_next_line(int fd);
 char	*ft_substr(char *s, int start, int len);
 char	*find_nl(char *buffer);
 char	**join_args(t_parse *parse, int i);
+int 	count_args(t_parse *parse, int i);
 int		here_doc(t_parse *parse, char *limiter, int i);
 // char *command_path(char *cmd, char **paths);
 // char **ft_paths(char **env);
@@ -203,8 +204,13 @@ void 	child_else(t_parse *parse, pipex *t_pipe, int i, char **comd);
 void 	ft_pattern(t_parse *parse, int i);
 void 	ft_parent(pipex *t_pipe, t_parse *parse, int i);
 void 	protection(char *comd);
-void check_child_built(t_parse *parse, char **comd);
-void first_last(t_parse *parse, pipex *t_pipe, int i);
-void ft_free2(char **cmd);
+void 	check_child_built(t_parse *parse, char **comd);
+void 	first_last(t_parse *parse, pipex *t_pipe, int i);
+void 	ft_free2(char **cmd);
+void 	input_permission(t_parse *parse, pipex *t_pipe, int i, int c);
+void 	initializing(pipex *t_pipe, t_parse *parse, char **env);
+void 	ft_default(pipex *t_pipe);
+void 	childs_room(pipex *t_pipe);
+int 	hd_duty(t_parse *parse, int i, int c);
 
 #endif

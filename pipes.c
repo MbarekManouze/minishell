@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:01:44 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/20 21:18:04 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/21 11:42:22 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void start(t_parse *parse,int i, pipex *t_pipe, char **comd)
     t_pipe->wait_id[t_pipe->id] = fork();
     if (t_pipe->wait_id[t_pipe->id++] == 0)
     {
+		signal(SIGQUIT, SIG_DFL);
         if (k == 1)
         {
             ft_pattern(parse, i);
@@ -97,7 +98,7 @@ void start(t_parse *parse,int i, pipex *t_pipe, char **comd)
         {
             ft_pattern(parse, i);
             child_else(parse, t_pipe, i, comd);
-        }
+		}
     }
     else
         ft_parent(t_pipe, parse, i);
