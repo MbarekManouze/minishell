@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:01:44 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/21 19:11:54 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:57:42 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	do_command(t_parse *parse, int i, char **comd)
 	}
 }
 
-void	start(t_parse *parse, int i, pipex *t_pipe, char **comd)
+void	start(t_parse *parse, int i, t_pipex *t_pipe, char **comd)
 {
 	int	k;
 
@@ -104,7 +104,7 @@ void	start(t_parse *parse, int i, pipex *t_pipe, char **comd)
 		ft_parent(t_pipe, parse, i);
 }
 
-int	check_red(t_parse *parse, pipex *t_pipe, int i)
+int	check_red(t_parse *parse, t_pipex *t_pipe, int i)
 {
 	int	c;
 

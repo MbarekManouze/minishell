@@ -6,13 +6,13 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 13:16:50 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/21 18:55:56 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:56:41 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	initializing(pipex *t_pipe, t_parse *parse, char **env)
+void	initializing(t_pipex *t_pipe, t_parse *parse, char **env)
 {
 	t_pipe->id = 0;
 	t_pipe->out = 0;
@@ -24,7 +24,7 @@ void	initializing(pipex *t_pipe, t_parse *parse, char **env)
 	parse->env = ft_env(env);
 }
 
-void	ft_default(pipex *t_pipe)
+void	ft_default(t_pipex *t_pipe)
 {
 	dup2(t_pipe->save[0], 0);
 	dup2(t_pipe->save[1], 1);

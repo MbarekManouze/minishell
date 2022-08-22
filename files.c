@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 19:29:32 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/21 20:14:46 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:57:23 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	input_file(t_parse *parse, pipex *t_pipe, int i, int c)
+void	input_file(t_parse *parse, t_pipex *t_pipe, int i, int c)
 {
 	if (parse->data[i].red[c].type == 1
 		&& g_status.g_status != 1 && g_status.g_conti != 1)
@@ -28,7 +28,7 @@ void	input_file(t_parse *parse, pipex *t_pipe, int i, int c)
 	}
 }
 
-void	output_file(t_parse *parse, pipex *t_pipe, int i, int c)
+void	output_file(t_parse *parse, t_pipex *t_pipe, int i, int c)
 {
 	if (parse->data[i].red[c].type == 2 && g_status.g_conti != 1)
 	{
@@ -51,7 +51,7 @@ void	output_file(t_parse *parse, pipex *t_pipe, int i, int c)
 	}
 }
 
-void	append_file(t_parse *parse, pipex *t_pipe, int i, int c)
+void	append_file(t_parse *parse, t_pipex *t_pipe, int i, int c)
 {
 	if (parse->data[i].red[c].type == 4 && g_status.g_conti != 1)
 	{
@@ -74,7 +74,7 @@ void	append_file(t_parse *parse, pipex *t_pipe, int i, int c)
 	}
 }
 
-void	input_permission(t_parse *parse, pipex *t_pipe, int i, int c)
+void	input_permission(t_parse *parse, t_pipex *t_pipe, int i, int c)
 {
 	if (access(parse->data[i].red[c].file, F_OK) == -1)
 	{

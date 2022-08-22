@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/22 11:44:49 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:59:32 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,64 +59,21 @@ void	ft_free(t_parse *parse)
 	free(parse->data);
 }
 
-int	check_space(char *str)
+void	ft_print_exit(char *str)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (str[i])
-		i++;
-	while (str[j] == ' ')
-		j++;
-	if (j == i)
-		return (1);
-	else
-		return (0);
+	printf("%s", str);
+	exit(g_status.g_status);
 }
 
-int	check(char *str)
+void	ft_loop(char *str, t_parse *parse, t_pipex *t_pipe)
 {
-	int	i;
-
-	i = 0;
-	if (!str[i])
-	{
-		free(str);
-		return (1);
-	}
-	while (str[i])
-	{
-		if (str[i] != ' ')
-			return (0);
-		i++;
-	}
-	free(str);
-	return (1);
-}
-
-int	main(int ac, char **av, char **env)
-{
-	char	*str;
-	t_parse	*parse;
-	t_pipex	*t_pipe;
-
-	(void)ac;
-	(void)av;
-	parse = malloc(sizeof(t_parse));
-	t_pipe = malloc(sizeof(t_pipex));
-	initializing(t_pipe, parse, env);
 	while (1)
 	{
 		signal(SIGINT, sig_int);
 		signal(SIGQUIT, SIG_IGN);
 		str = readline("bash-0.2$ ");
 		if (!str)
-		{
-			printf("exit\n");
-			exit(g_status.g_status);
-		}
+			ft_print_exit("exit\n");
 		if (check(str) || check_space(str))
 			continue ;
 		add_history(str);
@@ -133,4 +90,19 @@ int	main(int ac, char **av, char **env)
 		ft_free(parse);
 		ft_default(t_pipe);
 	}
+}
+
+int	main(int ac, char **av, char **env)
+{
+	char	*str;
+	t_parse	*parse;
+	t_pipex	*t_pipe;
+
+	(void)ac;
+	(void)av;
+	str = NULL;
+	parse = malloc(sizeof(t_parse));
+	t_pipe = malloc(sizeof(t_pipex));
+	initializing(t_pipe, parse, env);
+	ft_loop(str, parse, t_pipe);
 }

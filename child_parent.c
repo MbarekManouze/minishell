@@ -6,13 +6,13 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 19:52:41 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/21 18:55:14 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:56:58 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child_else(t_parse *parse, pipex *t_pipe, int i, char **comd)
+void	child_else(t_parse *parse, t_pipex *t_pipe, int i, char **comd)
 {
 	dup2(t_pipe->fd[1], 1);
 	close(t_pipe->fd[0]);
@@ -30,7 +30,7 @@ void	ft_pattern(t_parse *parse, int i)
 		exit(1);
 }
 
-void	ft_parent(pipex *t_pipe, t_parse *parse, int i)
+void	ft_parent(t_pipex *t_pipe, t_parse *parse, int i)
 {
 	if (parse->data[i + 1].cmd)
 		dup2(t_pipe->fd[0], 0);

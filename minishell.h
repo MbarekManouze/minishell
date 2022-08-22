@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/22 11:38:39 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/22 12:00:46 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,8 +185,6 @@ char	*find_nl(char *buffer);
 char	**join_args(t_parse *parse, int i);
 int		count_args(t_parse *parse, int i);
 int		here_doc(t_parse *parse, char *limiter, int i);
-// char *command_path(char *cmd, char **paths);
-// char **ft_paths(char **env);
 void	ft_begin(t_parse *parse, t_pipex *t_pipe);
 void	start(t_parse *parse, int i, t_pipex *t_pipe, char **env);
 void	do_command(t_parse *parse, int i, char **comd);
@@ -217,5 +215,7 @@ void	initializing(t_pipex *t_pipe, t_parse *parse, char **env);
 void	ft_default(t_pipex *t_pipe);
 void	childs_room(t_pipex *t_pipe);
 int		hd_duty(t_parse *parse, int i, int c);
+int		check_space(char *str);
+int		check(char *str);
 
 #endif
