@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   wait.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 19:31:17 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/21 19:19:43 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:37:40 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	wait_cmd(pipex *t_pipe, t_parse *parse)
+void	wait_cmd(t_pipex *t_pipe, t_parse *parse)
 {
 	int	i;
 	int	j;
 	int	c;
+	int	k;
 
 	i = 0;
 	j = 0;
@@ -27,7 +28,8 @@ void	wait_cmd(pipex *t_pipe, t_parse *parse)
 			c = 0;
 			if (parse->data[i].cmd)
 			{
-				if (parse->num_data == 1 && not_builtins(parse, 0)){}
+				if (parse->num_data == 1 && not_builtins(parse, 0))
+					k = 1;
 				else
 					j++;
 			}

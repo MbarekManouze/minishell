@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/21 19:03:36 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:44:49 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,12 @@ int	main(int ac, char **av, char **env)
 {
 	char	*str;
 	t_parse	*parse;
-	pipex	*t_pipe;
+	t_pipex	*t_pipe;
 
 	(void)ac;
 	(void)av;
 	parse = malloc(sizeof(t_parse));
-	t_pipe = malloc(sizeof(pipex));
+	t_pipe = malloc(sizeof(t_pipex));
 	initializing(t_pipe, parse, env);
 	while (1)
 	{

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   valhala.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 13:13:29 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/21 19:16:15 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:37:33 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_begin(t_parse *parse, pipex *t_pipe)
+void	ft_begin(t_parse *parse, t_pipex *t_pipe)
 {
 	g_status.g_status = 0;
 	g_status.g_conti = 0;
@@ -20,7 +20,7 @@ void	ft_begin(t_parse *parse, pipex *t_pipe)
 	commands(parse, t_pipe);
 }
 
-void	commands(t_parse *parse, pipex *t_pipe)
+void	commands(t_parse *parse, t_pipex *t_pipe)
 {
 	char	**cmd;
 	int		i;
@@ -45,7 +45,7 @@ void	commands(t_parse *parse, pipex *t_pipe)
 	childs_room(t_pipe);
 }
 
-void	childs_room(pipex *t_pipe)
+void	childs_room(t_pipex *t_pipe)
 {
 	int	status;
 
@@ -72,7 +72,7 @@ void	childs_room(pipex *t_pipe)
 	t_pipe->id = 0;
 }
 
-void	first_last(t_parse *parse, pipex *t_pipe, int i)
+void	first_last(t_parse *parse, t_pipex *t_pipe, int i)
 {
 	int		k;
 	char	**cmd;
@@ -97,7 +97,7 @@ void	first_last(t_parse *parse, pipex *t_pipe, int i)
 	close(0);
 }
 
-int	check_for_builtins(t_parse *parse, pipex *t_pipe)
+int	check_for_builtins(t_parse *parse, t_pipex *t_pipe)
 {
 	char	**cmd;
 	int		j;

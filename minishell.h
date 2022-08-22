@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/21 19:21:11 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:38:39 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct pipex_bonus
 	char	*limiter;
 	int		dup_hd;
 	int		idx;
-}		pipex;
+}		t_pipex;
 
 typedef struct s_global
 {
@@ -187,35 +187,35 @@ int		count_args(t_parse *parse, int i);
 int		here_doc(t_parse *parse, char *limiter, int i);
 // char *command_path(char *cmd, char **paths);
 // char **ft_paths(char **env);
-void	ft_begin(t_parse *parse, pipex *t_pipe);
-void	start(t_parse *parse, int i, pipex *t_pipe, char **env);
+void	ft_begin(t_parse *parse, t_pipex *t_pipe);
+void	start(t_parse *parse, int i, t_pipex *t_pipe, char **env);
 void	do_command(t_parse *parse, int i, char **comd);
-void	commands(t_parse *parse, pipex *t_pipe);
+void	commands(t_parse *parse, t_pipex *t_pipe);
 char	*join_data(char *s1, char *s2);
 void	h_d(t_parse *parse);
 int		count_h_d(t_parse *parse);
 void	open_files(t_parse *parse);
-int		check_red(t_parse *parse, pipex *t_pipe, int i);
-void	close_extra_files(pipex *t_pipe);
-int		check_for_builtins(t_parse *parse, pipex *t_pipe);
+int		check_red(t_parse *parse, t_pipex *t_pipe, int i);
+void	close_extra_files(t_pipex *t_pipe);
+int		check_for_builtins(t_parse *parse, t_pipex *t_pipe);
 int		find_here_d(t_parse *parse, int i);
-void	wait_cmd(pipex *t_pipe, t_parse *parse);
-void	set_red(t_parse *parse, pipex *t_pipe, int i);
+void	wait_cmd(t_pipex *t_pipe, t_parse *parse);
+void	set_red(t_parse *parse, t_pipex *t_pipe, int i);
 int		not_builtins(t_parse *parse, int i);
-void	input_file(t_parse *parse, pipex *t_pipe, int i, int c);
-void	output_file(t_parse *parse, pipex *t_pipe, int i, int c);
-void	append_file(t_parse *parse, pipex *t_pipe, int i, int c);
-void	child_else(t_parse *parse, pipex *t_pipe, int i, char **comd);
+void	input_file(t_parse *parse, t_pipex *t_pipe, int i, int c);
+void	output_file(t_parse *parse, t_pipex *t_pipe, int i, int c);
+void	append_file(t_parse *parse, t_pipex *t_pipe, int i, int c);
+void	child_else(t_parse *parse, t_pipex *t_pipe, int i, char **comd);
 void	ft_pattern(t_parse *parse, int i);
-void	ft_parent(pipex *t_pipe, t_parse *parse, int i);
+void	ft_parent(t_pipex *t_pipe, t_parse *parse, int i);
 void	protection(char *comd);
 void	check_child_built(t_parse *parse, char **comd);
-void	first_last(t_parse *parse, pipex *t_pipe, int i);
+void	first_last(t_parse *parse, t_pipex *t_pipe, int i);
 void	ft_free2(char **cmd);
-void	input_permission(t_parse *parse, pipex *t_pipe, int i, int c);
-void	initializing(pipex *t_pipe, t_parse *parse, char **env);
-void	ft_default(pipex *t_pipe);
-void	childs_room(pipex *t_pipe);
+void	input_permission(t_parse *parse, t_pipex *t_pipe, int i, int c);
+void	initializing(t_pipex *t_pipe, t_parse *parse, char **env);
+void	ft_default(t_pipex *t_pipe);
+void	childs_room(t_pipex *t_pipe);
 int		hd_duty(t_parse *parse, int i, int c);
 
 #endif

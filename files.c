@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 19:29:32 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/21 18:59:19 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/21 20:14:46 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	append_file(t_parse *parse, pipex *t_pipe, int i, int c)
 				g_status.g_status = 1;
 			}
 			dup2(t_pipe->file_appnd, 1);
+			t_pipe->out = 1;
 		}
 	}
 }
