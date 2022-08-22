@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 13:34:04 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 13:36:02 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/22 14:31:27 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,12 @@ void	modify_pwd(char **env)
 
 void	ft_cd_home(t_parse *parse)
 {
-	int		i;
 	char	*s;
+	int		i;
 
-	i = cher_home("HOME", parse->env);
-	if (i == -1)
+	if (cher_home("HOME", parse->env) == -1)
 	{
-		g_status.g_status = 1;
-		printf("bash: cd: HOME not set\n");
+		cher_home_err();
 		return ;
 	}
 	else
@@ -82,6 +80,8 @@ void	ft_cd_home(t_parse *parse)
 		{
 			g_status.g_status = 1;
 			printf("bash: cd: %s: No such file or directory\n", s);
+			if (g_status.g_id)
+				exit(1);
 		}
 		modify_pwd(parse->env);
 	}
@@ -97,6 +97,8 @@ void	ft_cd_dir(char **tab, t_parse *parse)
 	{
 		printf("bash: cd: %s: No such file or directory\n", tab[0]);
 		g_status.g_status = 1;
+		if (g_status.g_id)
+			exit(1);
 		return ;
 	}
 	modify_pwd(parse->env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 19:14:47 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 15:49:55 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/22 12:47:06 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void	ft_export2(char **tab, t_parse *parse)
 		{
 			printf("bash: export: `%s': not a valid identifier\n", tab[i]);
 			g_status.g_status = 1;
+			if (g_status.g_id)
+				exit(1);
 		}
 		i++;
 	}

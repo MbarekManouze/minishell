@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 13:13:29 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/22 11:37:33 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/22 12:46:30 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_begin(t_parse *parse, t_pipex *t_pipe)
 {
 	g_status.g_status = 0;
 	g_status.g_conti = 0;
+	g_status.g_id = 0;
 	h_d(parse);
 	commands(parse, t_pipe);
 }

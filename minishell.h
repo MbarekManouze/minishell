@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/22 12:00:46 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/22 14:31:50 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,5 +217,6 @@ void	childs_room(t_pipex *t_pipe);
 int		hd_duty(t_parse *parse, int i, int c);
 int		check_space(char *str);
 int		check(char *str);
+void	cher_home_err(void);
 
 #endif
