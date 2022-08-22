@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/22 11:59:32 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/22 15:39:03 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	ft_loop(char *str, t_parse *parse, t_pipex *t_pipe)
 		{
 			ft_default(t_pipe);
 			ft_free(parse);
+			g_status.g_conti = 0;
 			continue ;
 		}
 		ft_begin(parse, t_pipe);
