@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 18:34:35 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/21 18:51:01 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:25:18 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ int	check_pipes(char *str)
 	i = 0;
 	while (str[i])
 	{
+		if (!skipping_qoutes(str, &i))
+			break ;
 		if (str[i] == '|')
 		{
 			i++;

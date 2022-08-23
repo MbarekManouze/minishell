@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 13:34:04 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/22 14:31:27 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:54:45 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	modify_oldpwd(char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (!strncmp("OLDPWD", env[i], 6))
+		if (!ft_strncmp("OLDPWD", env[i], 6))
 		{
 			free(env[i]);
 			env[i] = ft_strdup(s1);
@@ -48,10 +48,10 @@ void	modify_pwd(char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (!strncmp("PWD", env[i], 3))
+		if (!ft_strncmp("PWD", env[i], 3))
 		{
 			free(env[i]);
-			env[i] = strdup(s1);
+			env[i] = ft_strdup(s1);
 		}
 		i++;
 	}

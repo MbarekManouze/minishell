@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 13:38:57 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/22 11:31:58 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:06:42 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_atoi(const char *str)
+{
+	int	j;
+	int	k;
+	int	l;
+
+	j = 1;
+	k = 0;
+	l = 0;
+	while ((*str <= 13 && *str >= 9) || *str == ' ')
+		str++;
+	if (*str == '-')
+		j *= -1;
+	if (*str == '+' || *str == '-')
+		str++;
+	while (*str <= '9' && *str >= '0')
+	{
+		k = k * 10 + *str - 48;
+		str++;
+		l++;
+	}
+	if (l >= 19 && j > 0)
+		return (-1);
+	if (l >= 19 && j < 0)
+		return (0);
+	return (k * j);
+}
 
 int	check_num(char *str)
 {
@@ -40,7 +68,7 @@ void	exit_code(char *str)
 {
 	int	code;
 
-	code = atoi(str);
+	code = ft_atoi(str);
 	if (!g_status.g_id)
 	{
 		printf("exit\n");

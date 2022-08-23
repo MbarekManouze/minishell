@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:30:14 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 13:39:36 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:49:18 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	cher_home(char *s, char **env)
 	i = 0;
 	while (env[i])
 	{
-		j = strncmp(s, env[i], ft_strlen(s));
+		j = ft_strncmp(s, env[i], ft_strlen(s));
 		if (j == 0)
 		{
 			if (env[i][ft_strlen(s)] == '=' || env[i][ft_strlen(s)] == '\0')
@@ -40,7 +40,7 @@ char	*env_cher2(char *s1, char **env)
 	i = 0;
 	while (env[i])
 	{
-		j = strncmp(s1, env[i], (ft_strlen(s1)));
+		j = ft_strncmp(s1, env[i], (ft_strlen(s1)));
 		if (j == 0)
 		{
 			s = ft_strdup(env[i] + ft_strlen(s1) + 1);

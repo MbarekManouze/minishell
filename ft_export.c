@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 19:14:47 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/22 12:47:06 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:55:57 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	get_index(char *str, char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (!strncmp(str, env[i], j))
+		if (!ft_strncmp(str, env[i], j))
 		{
 			if (env[i][j] == '=' || env[i][j] == '\0')
 				return (i);
@@ -51,12 +51,12 @@ char	**add_variables(char *str, char **env)
 	i = 0;
 	while (env[i])
 	{
-		t[i] = strdup(env[i]);
+		t[i] = ft_strdup(env[i]);
 		free(env[i]);
 		i++;
 	}
 	free(env);
-	t[i] = strdup(str);
+	t[i] = ft_strdup(str);
 	i++;
 	t[i] = 0;
 	return (t);
@@ -66,7 +66,7 @@ void	modify_variable(char *str, char **env, int index)
 {
 	int	i;
 
-	if (!strchr(str, '='))
+	if (!ft_strchr(str, '='))
 		return ;
 	i = 0;
 	while (env[i])
@@ -74,7 +74,7 @@ void	modify_variable(char *str, char **env, int index)
 		if (i == index)
 		{
 			free(env[i]);
-			env[i] = strdup(str);
+			env[i] = ft_strdup(str);
 		}
 		i++;
 	}

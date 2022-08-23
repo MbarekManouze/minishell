@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/22 15:39:03 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:57:11 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	excute_builtins(char **comd, t_parse *parse)
 {
-	if (!strcmp(comd[0], "echo"))
+	if (!ft_strcmp(comd[0], "echo"))
 		ft_echo(comd + 1);
-	else if (!strcmp(comd[0], "export"))
+	else if (!ft_strcmp(comd[0], "export"))
 		ft_export(comd + 1, parse);
-	else if (!strcmp(comd[0], "env"))
+	else if (!ft_strcmp(comd[0], "env"))
 		print_env(parse);
-	else if (!strcmp(comd[0], "unset"))
+	else if (!ft_strcmp(comd[0], "unset"))
 		ft_unset(comd + 1, parse);
-	else if (!strcmp(comd[0], "pwd"))
+	else if (!ft_strcmp(comd[0], "pwd"))
 		ft_pwd(parse);
-	else if (!strcmp(comd[0], "cd"))
+	else if (!ft_strcmp(comd[0], "cd"))
 		ft_cd(comd + 1, parse);
-	else if (!strcmp(comd[0], "exit"))
+	else if (!ft_strcmp(comd[0], "exit"))
 		ft_exit(comd + 1);
 }
 

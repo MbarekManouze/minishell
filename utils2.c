@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 16:54:54 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/21 18:41:55 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:00:29 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (0);
-	str = malloc(strlen(s1) + strlen(s2) + 1);
+	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!str)
 		return (0);
 	i = 0;
@@ -60,7 +60,7 @@ char	*ft_strjoin2(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (0);
-	str = malloc(strlen(s1) + strlen(s2) + 1);
+	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!str)
 		return (0);
 	i = 0;

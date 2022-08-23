@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:03:12 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 16:19:59 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:59:51 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_unset3(char **t, char **env, int j)
 	{
 		if (i != j)
 		{
-			t[k++] = strdup(env[i]);
+			t[k++] = ft_strdup(env[i]);
 			free(env[i]);
 		}
 		else

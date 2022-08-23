@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:34:06 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/21 15:40:08 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:50:46 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*env_cher(char *s1, char **env)
 	s = NULL;
 	while (env[i])
 	{
-		j = strncmp(s1, env[i], (ft_strlen(s1)));
+		j = ft_strncmp(s1, env[i], (ft_strlen(s1)));
 		if (j == 0)
 			return (env_cher_fill(s, env, i, s1));
 		i++;

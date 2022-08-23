@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:49:19 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/20 15:49:49 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:56:16 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	add_print_declare(char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (!strchr(env[i], '='))
+		if (!ft_strchr(env[i], '='))
 			printf("declare -x %s\n", env[i]);
 		else
 			add_print_qoutes(env, i);

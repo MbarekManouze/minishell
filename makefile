@@ -6,13 +6,14 @@
 #    By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 11:43:45 by ressalhi          #+#    #+#              #
-#    Updated: 2022/08/23 11:42:37 by ressalhi         ###   ########.fr        #
+#    Updated: 2022/08/23 19:19:40 by ressalhi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+
 SRC =	main.c ft_split.c expand.c env.c errors.c parsing.c redirections.c \
 		remove_trash.c utils.c utils2.c dollar.c dollar2.c dollar3.c dollar_utils.c \
 		dollar4.c unset.c echo.c ft_export.c ft_export2.c builtins.c pipes.c pipe_utils.c \

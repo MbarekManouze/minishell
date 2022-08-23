@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_parent.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 19:52:41 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/22 12:55:16 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:49:56 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ void	protection(char *comd)
 
 void	check_child_built(t_parse *parse, char **comd)
 {
-	if (!strcmp(comd[0], "pwd") || !strcmp(comd[0], "export")
-		|| !strcmp(comd[0], "env") || !strcmp(comd[0], "unset")
-		|| !strcmp(comd[0], "cd") || !strcmp(comd[0], "exit")
-		|| !strcmp(comd[0], "echo"))
+	if (!ft_strcmp(comd[0], "pwd") || !ft_strcmp(comd[0], "export")
+		|| !ft_strcmp(comd[0], "env") || !ft_strcmp(comd[0], "unset")
+		|| !ft_strcmp(comd[0], "cd") || !ft_strcmp(comd[0], "exit")
+		|| !ft_strcmp(comd[0], "echo"))
 	{
 		excute_builtins(comd, parse);
 		exit(0);

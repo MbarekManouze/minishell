@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/23 11:37:59 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:24:36 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	ft_free_tab(char **tab);
 int		check_qoutes(char **tab, t_parse *parse);
 int		check_qoutes2(char *str, t_parse *parse);
 int		check_qoutes3(char *str, int i, t_parse *parse, char c);
+int		skipping_qoutes(char *str, int *i);
 void	ft_export(char **tab, t_parse *parse);
 void	modify_variable(char *str, char **env, int index);
 char	**add_variables(char *str, char **env);

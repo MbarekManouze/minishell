@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 16:11:28 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/20 16:19:54 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:52:39 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	print_env(t_parse *parse)
 	i = 0;
 	while (parse->env[i])
 	{
-		if (strchr(parse->env[i], '='))
+		if (ft_strchr(parse->env[i], '='))
 			printf("%s\n", parse->env[i]);
 		i++;
 	}
