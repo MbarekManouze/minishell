@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 13:38:57 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/23 19:06:42 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/23 23:23:04 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,14 @@ void	ft_exit(char **tab)
 		i++;
 	if (i > 1)
 	{
+		g_status.g_status = 1;
 		if (!g_status.g_id)
 			printf("exit\nbash: exit: too many arguments\n");
 		else
+		{
 			printf("bash: exit: too many arguments\n");
+			exit(1);
+		}
 	}
 	else
 		exit_code(tab[0]);
