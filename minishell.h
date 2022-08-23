@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:53:18 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/22 14:31:50 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/23 11:37:59 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ void	print_tab(char **tab, int n);
 void	ft_echo(char **tab);
 void	ft_unset(char **tab, t_parse *parse);
 char	**ft_unset2(char *str, char **env);
+void	rl_replace_line(char *s, int h);
 void	ft_pwd(t_parse *p);
 void	print_env(t_parse *parse);
 void	ft_cd(char **tab, t_parse *parse);
