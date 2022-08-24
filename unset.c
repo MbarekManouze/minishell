@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:03:12 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/23 18:59:51 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/24 21:46:00 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_valid2(char *str)
 	if (!((str[i] >= 'a' && str[i] <= 'z')
 			|| (str[i] >= 'A' && str[i] <= 'Z') || str[i] == '_'))
 		return (0);
-	while (str[i] != '=' && str[i])
+	while (str[i])
 	{
 		if (!((str[i] >= 'a' && str[i] <= 'z')
 				|| (str[i] >= 'A' && str[i] <= 'Z')
