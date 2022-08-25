@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/23 23:24:02 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/25 16:22:50 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	ft_loop(char *str, t_parse *parse, t_pipex *t_pipe)
 		if (!parser(str, parse))
 			continue ;
 		wait_cmd(t_pipe, parse);
-		g_status.g_status = 0;
 		if (check_for_builtins(parse, t_pipe))
 		{
 			ft_default(t_pipe);

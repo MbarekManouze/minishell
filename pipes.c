@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:01:44 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/22 12:56:21 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/25 17:21:11 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ int	check_red(t_parse *parse, t_pipex *t_pipe, int i)
 	t_pipe->out = 0;
 	if (parse->data[i].num_red >= 1)
 	{
+		if (parse->num_data == 1 && not_builtins(parse, 0))
+			g_status.g_status = 0;
 		while (c < parse->data[i].num_red)
 		{
 			input_file(parse, t_pipe, i, c);

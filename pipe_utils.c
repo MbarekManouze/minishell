@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:23:03 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/21 19:08:28 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/25 17:00:57 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	str = (unsigned char *)s1;
 	ssr = (unsigned char *)s2;
 	i = 0;
-	while ((str[i] && ssr[i]) && str[i] == ssr[i] && i <= n - 2)
+	while ((str[i] && ssr[i]) && str[i] == ssr[i] && i < n - 1)
 		i++;
 	return (str[i] - ssr[i]);
 }
