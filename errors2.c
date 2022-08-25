@@ -6,7 +6,7 @@
 /*   By: ressalhi <ressalhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 18:34:35 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/23 19:25:18 by ressalhi         ###   ########.fr       */
+/*   Updated: 2022/08/25 14:02:58 by ressalhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*str_to_split(char *str, char c)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == c)
+		if (s[i] == c || s[i] == '\t')
 			s[i] = SPLIT_TOKEN;
 		else if (s[i] == '"')
 		{
@@ -95,9 +95,9 @@ int	check_pipes2(char *str)
 		printf("Syntax error\n");
 		return (0);
 	}
-	if (str[0] == ' ')
+	if (str[0] == ' ' || str[0] == '\t')
 	{
-		while (str[i] == ' ')
+		while (str[i] == ' ' || str[i] == '\t')
 			i++;
 		if (str[i] == '|')
 		{
@@ -123,7 +123,7 @@ int	check_pipes(char *str)
 		if (str[i] == '|')
 		{
 			i++;
-			while (str[i] == ' ')
+			while (str[i] == ' ' || str[i] == '\t')
 				i++;
 			if (str[i] == '|' || str[i] == '\0')
 			{
