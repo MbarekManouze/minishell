@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 11:04:17 by mmanouze          #+#    #+#             */
-/*   Updated: 2022/08/25 17:18:56 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/08/26 11:01:57 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	hd_duty(t_parse *parse, int i, int c)
 		waitpid(id, &sts, 0);
 		if (sts == 2)
 		{
-			printf("haha\n");
 			parse->data[i].sign = 1;
 			g_status.g_status = 1;
 			g_status.g_conti = 1;
