@@ -6,7 +6,7 @@
 /*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:52:39 by ressalhi          #+#    #+#             */
-/*   Updated: 2022/08/30 12:42:12 by mmanouze         ###   ########.fr       */
+/*   Updated: 2022/09/01 13:17:08 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_free(t_parse *parse)
 	i = 0;
 	while (i < parse->num_data)
 	{
-		close(parse->data[i].fd[0]);
+		// close(parse->data[i].fd[0]);
 		free(parse->data[i].cmd);
 		j = 0;
 		while (parse->data[i].args[j])
